@@ -111,22 +111,11 @@ class Navigation{
     }
     
     /**
-     * Creates a breadcrumb navigation from the $this->current array
-     * @return string 
+     * Returns the current navigation structure
+     * @return array
      */
-    public function createBreadcrumb($class = 'breadcrumb'){
-        if($this->current[0]['text'] == 'Home'){
-            $breadcrumb = '<li class="'.$this->getActiveClass().'">Home</li>';
-        }
-        else{
-            $breadcrumb = '<li><a href="/" title="Home">Home</a></li>';
-            $numlinks = count($this->current);
-            for($i = 0; $i < $numlinks; $i++){
-                if($i == ($numlinks - 1)){$breadcrumb.= '<li class="'.$this->getActiveClass().'">'.$this->current[$i]['text'].'</li>';}
-                else{$breadcrumb.= '<li><a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'">'.$this->current[$i]['text'].'</a></li>';}
-            }
-        }
-        return '<ul class="'.$class.'">'.$breadcrumb.'</ul>';
+    public function getCurrentItems(){
+        return $this->current;
     }
     
     /**
