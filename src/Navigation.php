@@ -105,8 +105,8 @@ class Navigation{
         
         if($found != true){
             unset($this->current);
-            $this->current[0]['text'] = 'Home';
-            $this->current[0]['link'] = '/';
+            $this->current[0]['text'] = key($this->navigation[0]);
+            $this->current[0]['link'] = $this->navigation[0];
         }
     }
     
