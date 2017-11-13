@@ -52,8 +52,10 @@ class Navigation{
      * @return $this
      */
     public function setCurrentURL($url){
-        $this->currentURL = strtolower($url);
-        $this->getCurrent();
+        if(is_string($url)){
+            $this->currentURL = strtolower($url);
+            $this->getCurrent();
+        }
         return $this;
     }
     
@@ -140,7 +142,7 @@ class Navigation{
         $it = $this->parseArray();
         foreach($it as $text => $link){
             if(isset($link) && !is_numeric($text)){
-                $this->buildMenu($it, $link, $levels, $startLevel, $dropdownClass);
+                $this->buildMenu($it, $text, $link, $levels, $startLevel, $dropdownClass);
             }
         }
         
