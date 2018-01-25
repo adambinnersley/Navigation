@@ -5,16 +5,71 @@ use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
 class Navigation{
+    /**
+     * This should be the array that you wish to build the menu from
+     * @var array 
+     */
     protected $navigation = array();
+    
+    /**
+     * The current items as an array to allow the class to build the breadcrumb
+     * @var array 
+     */
     protected $current;
+    
+    /**
+     * The current URI string
+     * @var string This needs to be the URI and match the navigation array given URI
+     */
     public $currentURL;
     
+    /**
+     * This should be the navigation object after the array has been read
+     * @var object The navigation object
+     */
     protected $nav;
+    
+    /**
+     * The navigation menu as a HTML string needed to build the menu across methods
+     * @var string
+     */
     protected $navItem;
+    
+    /**
+     * Set by the build menu function will be true if sub-menu exists else will be false
+     * @var boolean
+     */
     protected $sub = false;
+    
+    /**
+     * If there is no level set to false else will set integer value when building the menu
+     * @var boolean|int
+     */
     protected $currentLevel = false;
 
+    /**
+     * The class assigned to current menu and breadcrumb items
+     * @var string
+     */
     public $activeClass = 'active';
+    
+    /**
+     * The class assigned to the menu item
+     * @var string
+     */
+    public $navigationClass = 'nav navbar-nav';
+    
+    /**
+     * The HTML ID assigned to the menu item
+     * @var string
+     */
+    public $navigationID = '';
+    
+    /**
+     * The drop-down class assigned to the UL sub-menu elements of the menu
+     * @var string
+     */
+    public $dropdownClass = '';
     
     /**
      * Gets the navigation items and sets the current menu hierarchy
@@ -68,21 +123,92 @@ class Navigation{
     }
     
     /**
-     * Sets the class that is assigned to active menu and breadcrumb items
+     * Sets the class(es) that is assigned to active menu and breadcrumb items
      * @param string $className This should be the class value you want to add to active menu items
      * @return $this
      */
     public function setActiveClass($className){
-        $this->activeClass = $className;
+        if(!empty(trim($className))){
+            $this->activeClass = trim($className);
+        }
         return $this;
     }
     
     /**
-     * Returns the class that is given to active menu and breadcrumb items
-     * @return string
+     * Returns the class(es) that is given to active menu and breadcrumb items
+     * @return string The classes for active items is returned
      */
     public function getActiveClass(){
         return $this->activeClass;
+    }
+    
+    /**
+     * Sets the class(es) for the HTML navigation item
+     * @param string $classes This should be the class or lasses that you want to give to the navigation item
+     * @return $this
+     */
+    public function setNavigationClass($classes){
+        if(!empty(trim($classes))){
+            $this->navigationClass = trim($classes);
+        }
+        return $this;
+    }
+    
+    /**
+     * Returns the navigation class(es) for the HTML item
+     * @return string|false If the string is not empty will return the classes assigned else will return false
+     */
+    public function getNavigationClass(){
+        if(!empty($this->navigationClass)){
+            return $this->navigationClass;
+        }
+        return false;
+    }
+    
+    /**
+     * Sets the HTML ID for the navigation item
+     * @param string $id This should be the ID that you want to give to the HTML navigation object
+     * @return $this
+     */
+    public function setNavigationID($id){
+        if(!empty(trim($id))){
+            $this->navigationID = trim($id);
+        }
+        return $this;
+    }
+    
+    /**
+     * Returns the navigation ID string
+     * @return string|false If the ID is not empty will return the ID string else will return false
+     */
+    public function getNavigationID(){
+        if(!empty($this->navigationID)){
+            return $this->navigationID;
+        }
+        return false;
+    }
+    
+    /**
+     * Sets the drop-down class to use on the UL elements of the navigation menu
+     * @param string $classes This should be the classes that you want to give any sub-menu items on the UL elements
+     * @return $this
+     */
+    public function setDropDownClass($classes){
+        if(!empty(trim($classes))){
+            $this->dropdownClass = trim($classes);
+        }
+        return $this;
+    }
+    
+    /**
+     * Returns the drop-down class for the UL elements if it is not empty
+     * @return string|false If the drop-down class is not empty will return the classes else will return false
+     */
+    public function getDropDownClass(){
+        if(!empty($this->dropdownClass)){
+            return $this->dropdownClass;
+        }
+        return false;
     }
     
     /**
@@ -120,18 +246,16 @@ class Navigation{
     
     /**
      * Creates a navigation menu from any multi-dimensional array
-     * @param string $class This should be the class name(s) you want to give to the menu item
-     * @param string $dropdownClass The class name(s) that you want to give to any sub-menu items (ul items)
      * @param int $levels This should be the number of levels which you wish to display (0 = All)
      * @param int $startLevel Should be the starting level of the navigation
      * @return string Returns the navigation as a string
      */
-    public function createNavigation($class = 'nav navbar-nav', $dropdownClass = '', $levels = 0, $startLevel = 0){
-        $this->navItem = '<ul class="'.$class.'">';
+    public function createNavigation($levels = 0, $startLevel = 0){
+        $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
         $it = $this->parseArray();
         foreach($it as $text => $link){
             if(isset($link) && !is_numeric($text)){
-                $this->buildMenu($it, $text, $link, $levels, $startLevel, $dropdownClass);
+                $this->buildMenu($it, $text, $link, $levels, $startLevel);
             }
         }
         
@@ -149,9 +273,8 @@ class Navigation{
      * @param string $link This is the menu item link
      * @param int|false $levels The maximum number of levels to show
      * @param int $start The level that you wish to start at when building the menu
-     * @param string $dropdownClass The class that should be assigned to any drop-down elements
      */
-    protected function buildMenu($it, $text, $link, $levels, $start, $dropdownClass){
+    protected function buildMenu($it, $text, $link, $levels, $start){
         $current = ($link === $this->current[$it->getDepth()]['link'] ? ' class="'.$this->getActiveClass().'"' : '');
                 
         if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub == true){
@@ -163,7 +286,7 @@ class Navigation{
                         $this->nextItem($it, $start, $current);
                     }
                     elseif($this->currentLevel < $it->getDepth()){
-                        for($i = $this->currentLevel; $i < $it->getDepth(); $i++){$this->navItem.= '<ul class="'.$dropdownClass.'"><li'.$current.'>';}
+                        for($i = $this->currentLevel; $i < $it->getDepth(); $i++){$this->navItem.= '<ul'.($this->getDropDownClass() ? ' class="'.$this->getDropDownClass().'"' : '').'><li'.$current.'>';}
                     }
                     else{
                         for($i = $it->getDepth(); $i < $this->currentLevel; $i++){$this->closeLevel();}
