@@ -46,6 +46,12 @@ class Navigation{
      * @var boolean|int
      */
     protected $currentLevel = false;
+    
+    /**
+     * This counts the number of links output by the menu
+     * @var int
+     */
+    protected $linkCount = 0;
 
     /**
      * The class assigned to current menu and breadcrumb items
@@ -303,22 +309,24 @@ class Navigation{
      * Creates a navigation menu from any multi-dimensional array
      * @param int $levels This should be the number of levels which you wish to display (0 = All)
      * @param int $startLevel Should be the starting level of the navigation
-     * @return string Returns the navigation as a string
+     * @return string|false Returns the navigation as a string if it exists else if no menu exists returns false
      */
     public function createNavigation($levels = 0, $startLevel = 0){
         $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
         $it = $this->parseArray();
+        $items = 0;
         foreach($it as $text => $link){
             if(isset($link) && !is_numeric($text)){
                 $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? $levels : ($levels + 1)), $startLevel);
             }
+            $items++;
         }
         
         for($i = $this->currentLevel; $i > 0; $i--){
             $this->closeLevel();
         }
         if($startLevel == 0){$this->closeLevel();}
-        return $this->navItem;
+        return ($items === 1 || $this->linkCount > 1 ? $this->navItem : false);
     }
     
     /**
@@ -405,6 +413,7 @@ class Navigation{
         }
         else{$current = '';}
         if($this->current[0]['link'] == $link && $link == '/'){$href = '';}else{$href = ' href="'.$link.'"';}
+        $this->linkCount++;
         return '<a'.$href.' title="'.$text.'"'.$current.'>'.$text.'</a>';
     }
     
