@@ -1,5 +1,5 @@
 # Navigation
-Creates a HTML navigation menu and Breadcrumb items from a PHP array
+Creates a HTML navigation menu and Breadcrumb menu from a PHP array
 
 ## Installation
 
@@ -72,6 +72,7 @@ echo($navigation->createNavigation());
 
 ### Multi Level Navigation Menu
 
+#### PHP Code
 ```php
 require 'src/navigation.php';
 
@@ -129,6 +130,7 @@ echo($navigation->createNavigation());
 
 ### Breadcrumb menu
 
+#### PHP Code
 ```php
 require 'src/navigation.php';
 
@@ -203,16 +205,131 @@ echo($navigation->createBreadcrumb(false));
 
 ### Change HTML Classes/Navigation ID
 
+You can change the default class elements on the navigation and breadcrumb items by using the following commands
+
+#### PHP Code
 ```php
 
-```
+require 'src/navigation.php';
 
+use Nav\Navigation;
+
+$menu = array(
+    'Home' => '/',
+    'Link Text' => '/link-2',
+    'Sample Submenu' => '/sample',
+    array(
+        'Sub item 1' => '/sub-pages/subpage1',
+        'Sub item 2' => '/sub-pages/subpage2',
+        'Has another level' => '/sub-pages/has-sub-pages',
+        array(
+            'Final Level' => '/sub-sub-pages/final-sub-level',
+            'Hello World' => '/sub-sub-pages/hello-world',
+        ),
+    ),
+    'Another Page' => '/yet-another-link',
+);
+
+$navigation = new Navigation($menu, '/sub-sub-pages/hello-world');
+$navigation->setActiveClass('current-item c-item')
+           ->setNavigationClass('my-nav-class')
+           ->setNavigationID('my-unique-navigation-id')
+           ->setDropDownClass('my-drop-down-class drop-down');
+echo($navigation->createNavigation());
+
+```
+#### Output
 ```html
+
+<ul id="my-unique-navigation-id" class="my-nav-class">
+    <li><a href="/" title="Home">Home</a></li>
+    <li><a href="/link-2" title="Link Text">Link Text</a></li>
+    <li class="current-item c-item"><a href="/sample" title="Sample Submenu" class="current-item c-item">Sample Submenu</a>
+        <ul class="my-drop-down-class drop-down">
+            <li><a href="/sub-pages/subpage1" title="Sub item 1">Sub item 1</a></li>
+            <li><a href="/sub-pages/subpage2" title="Sub item 2">Sub item 2</a></li>
+            <li class="current-item c-item"><a href="/sub-pages/has-sub-pages" title="Has another level" class="current-item c-item">Has another level</a>
+                <ul class="my-drop-down-class drop-down">
+                    <li><a href="/sub-sub-pages/final-sub-level" title="Final Level">Final Level</a></li>
+                    <li class="current-item c-item"><a href="/sub-sub-pages/hello-world" title="Hello World" class="current-item c-item">Hello World</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a href="/yet-another-link" title="Another Page">Another Page</a></li>
+</ul>
 
 ```
 
 ### Additional Features
 
+You can also choose to display only a given number of navigation levels starting at any level you choose
+
+#### PHP Code
 ```php
+require 'src/navigation.php';
+
+use Nav\Navigation;
+
+$menu = array(
+    'Home' => '/',
+    'Link Text' => '/link-2',
+    'Sample Submenu' => '/sample',
+    array(
+        'Sub item 1' => '/sub-pages/subpage1',
+        'Sub item 2' => '/sub-pages/subpage2',
+        'Has another level' => '/sub-pages/has-sub-pages',
+        array(
+            'Final Level' => '/sub-sub-pages/final-sub-level',
+            'Hello World' => '/sub-sub-pages/hello-world',
+        ),
+    ),
+    'Another Page' => '/yet-another-link',
+    'Google' => 'https://www.google.co.uk',
+    'Final Link' => '/final-page',
+);
+
+$navigation = new Navigation($menu, '/sub-sub-pages/hello-world');
+
+// Example 1
+$levels = 1;
+
+echo($navigation->createNavigation($levels));
+
+// Example 2
+$levels = 2;
+$start_level = 1;
+
+echo($navigation->createNavigation($levels, $start_level));
+
+```
+
+#### Output
+```html
+
+// Example 1
+// Only displays the top menu level
+<ul class="nav navbar-nav">
+    <li><a href="/" title="Home">Home</a></li>
+    <li><a href="/link-2" title="Link Text">Link Text</a></li>
+    <li class="active"><a href="/sample" title="Sample Submenu" class="active">Sample Submenu</a></li>
+    <li><a href="/yet-another-link" title="Another Page">Another Page</a></li>
+    <li><a href="https://www.google.co.uk" title="Google">Google</a></li>
+    <li><a href="/final-page" title="Final Link">Final Link</a></li>
+</ul>
+
+// Example 2
+// Display 2 levels of the navigation starting at level 1 (the first sub level of the current item)
+<ul class="nav navbar-nav">
+    <li class="active"><a href="/sample" title="Sample Submenu">Sample Submenu</a></li>
+    <li><a href="/sub-pages/subpage1" title="Sub item 1">Sub item 1</a></li>
+    <li><a href="/sub-pages/subpage2" title="Sub item 2">Sub item 2</a></li>
+    <li class="active"><a href="/sub-pages/has-sub-pages" title="Has another level" class="active">Has another level</a>
+        <ul>
+            <li><a href="/sub-sub-pages/final-sub-level" title="Final Level">Final Level</a></li>
+            <li class="active"><a href="/sub-sub-pages/hello-world" title="Hello World" class="active">Hello World</a></li>
+        </ul>
+    </li>
+</ul>
 
 ```
