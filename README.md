@@ -37,9 +37,9 @@ Menus and breadcrumbs can be created from either simple arrays or multi-dimensio
 #### PHP Code
 ```php
 
+require 'src/navigation.php';
+
 use Nav\Navigation;
-// Or
-// require 'src/navigation.php';
 
 $menu = array(
     'Home' => '/',
@@ -53,7 +53,7 @@ $menu = array(
 // For this example we are saying we are on the home page of the website but you can use something like $_SERVER['REQUEST_URI'] or filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL)
 $currentUrl = '/';
 
-$navigation = new Nav\Navigation($menu, $currentUrl);
+$navigation = new Navigation($menu, $currentUrl);
 echo($navigation->createNavigation());
 
 ```
