@@ -209,7 +209,6 @@ You can change the default class elements on the navigation and breadcrumb items
 
 #### PHP Code
 ```php
-
 require 'src/navigation.php';
 
 use Nav\Navigation;
