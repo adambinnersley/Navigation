@@ -310,7 +310,7 @@ class Navigation{
         $it = $this->parseArray();
         foreach($it as $text => $link){
             if(isset($link) && !is_numeric($text)){
-                $this->buildMenu($it, $text, $link, $levels, $startLevel);
+                $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? $levels : ($levels + 1)), $startLevel);
             }
         }
         
