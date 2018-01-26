@@ -317,7 +317,7 @@ class Navigation{
         $items = 0;
         foreach($it as $text => $link){
             if(isset($link) && !is_numeric($text)){
-                $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? $levels : ($levels + 1)), $startLevel);
+                $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? intval($levels) : ($levels + 1)), intval($startLevel));
             }
             $items++;
         }
@@ -376,10 +376,12 @@ class Navigation{
                         $this->nextItem($it, $start, $current);
                     }
                 }
-                else{$this->navItem.= '<li'.$current.'>';}
+                elseif($start === 0 || ($this->sub == true && $it->getDepth() >= $start)){
+                    $this->navItem.= '<li'.$current.'>';
+                }
 
                 $this->currentLevel = $it->getDepth();
-                if($start === 0 || $this->sub == true){$this->navItem.= $this->createLinkItem($link, $text, $start);}
+                if($start === 0 || ($this->sub == true && $it->getDepth() >= $start)){$this->navItem.= $this->createLinkItem($link, $text, $start);}
             }
         }
     }
@@ -391,7 +393,8 @@ class Navigation{
      * @param string $current This should be the current string 
      */
     protected function nextItem($it, $start, $current){
-        if($this->sub == true && ($start - 1) == $it->getDepth()){$this->sub = false;}else{$this->navItem.= '</li><li'.$current.'>';}
+        if($this->sub == true && ($start - 1) == $it->getDepth()){$this->sub = false;}
+        else{$this->navItem.= ($this->linkCount >= 1 ? '</li>' : '').'<li'.$current.'>';}
     }
     
     /**

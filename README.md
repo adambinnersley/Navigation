@@ -320,7 +320,6 @@ echo($navigation->createNavigation($levels, $start_level));
 // Example 2
 // Display 2 levels of the navigation starting at level 1 (the first sub level of the current item)
 <ul class="nav navbar-nav">
-    <li class="active"><a href="/sample" title="Sample Submenu">Sample Submenu</a></li>
     <li><a href="/sub-pages/subpage1" title="Sub item 1">Sub item 1</a></li>
     <li><a href="/sub-pages/subpage2" title="Sub item 2">Sub item 2</a></li>
     <li class="active"><a href="/sub-pages/has-sub-pages" title="Has another level" class="active">Has another level</a>
