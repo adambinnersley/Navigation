@@ -72,6 +72,18 @@ class Navigation{
     public $dropdownClass = '';
     
     /**
+     *This is the separator for any breadcrumb items that aren't in the list format 
+     * @var string 
+     */
+    public $separator = ' &gt; ';
+    
+    /**
+     * The type of element that the breadcrumb is normally UL or OL
+     * @var string 
+     */
+    public $breadcrumbElement = 'ul';
+    
+    /**
      * Gets the navigation items and sets the current menu hierarchy
      * @param array $navArray
      * @param string $currentUrl This should be the URL of the current page
@@ -212,6 +224,49 @@ class Navigation{
     }
     
     /**
+     * Sets the separator for any breadcrumb items that aren't list elements
+     * @param string $separator This should be the element you want as the separator for breadcrumb items;
+     * @return $this
+     */
+    public function setBreadcrumbSeparator($separator){
+        if($separator){
+            $this->separator = $separator;
+        }
+        return $this;
+    }
+    
+    /**
+     * The breadcrumb separator will be returned
+     * @return string The separator will be returned
+     */
+    public function getBreadcrumbSeparator(){
+        return $this->separator;
+    }
+    
+    /**
+     * Sets the main element to give to list style breadcrumb menus
+     * @param string $element The main element you want to give to the breadcrumb
+     * @return $this
+     */
+    public function setBreadcrumbElement($element){
+        if(!empty(trim($element))){
+            $this->breadcrumbElement = trim($element);
+        }
+        return $this;
+    }
+    
+    /**
+     * Returns the breadcrumb element type
+     * @return string false Returns the element to surround the breadcrumb items with (default is UL)
+     */
+    public function getBreadcrumbElement(){
+        if(!empty($this->breadcrumbElement)){
+            return $this->breadcrumbElement;
+        }
+        return false;
+    }
+    
+    /**
      * Creates the current menu items which are selected from the navigation item hierarchy
      */
     public function getCurrent(){
@@ -264,6 +319,26 @@ class Navigation{
         }
         if($startLevel == 0){$this->closeLevel();}
         return $this->navItem;
+    }
+    
+    /**
+     * Creates a bread-crumb navigation from the $this->current array
+     * @return string Returns the bread-crumb information as a string with all of the links included
+     */
+    public function createBreadcrumb($list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item'){
+        $breadcrumb = ($list === true && $this->getBreadcrumbElement() ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
+        if($this->current[0]['link'] == '/'){
+            $breadcrumb.= 'Home';
+        }
+        else{
+            $breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : '').'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');
+            $numlinks = count($this->current);
+            for($i = 0; $i < $numlinks; $i++){
+                if($i == ($numlinks - 1)){$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
+                else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
+            }
+        }
+        return $breadcrumb.($list === true && $this->getBreadcrumbElement() ? '</'.$this->getBreadcrumbElement().'>' : '');
     }
     
     /**
@@ -342,5 +417,14 @@ class Navigation{
             $this->nav = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->getNavigationArray()));
         }
         return $this->nav;
+    }
+    
+    /**
+     * Checks to see if breadcrumb element is a list style
+     * @return boolean Will return true if element is either UL or OL else will return false
+     */
+    protected function isBreadcrumbList(){
+        if(strtolower($this->breadcrumbElement) === 'ul' || strtolower($this->breadcrumbElement) === 'ol'){return true;}
+        return false;
     }
 }
