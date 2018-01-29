@@ -94,7 +94,7 @@ class Navigation{
      * @param array $navArray
      * @param string $currentUrl This should be the URL of the current page
      */
-    public function __construct($navArray, $currentUrl){
+    public function __construct($navArray, $currentUrl) {
         $this->setNavigationArray($navArray);
         $this->setCurrentURL($currentUrl);
     }
@@ -104,8 +104,8 @@ class Navigation{
      * @param array $array This should be the array of items you wish to make into a menu
      * @return $this
      */
-    public function setNavigationArray($array){
-        if(is_array($array)){
+    public function setNavigationArray($array) {
+        if(is_array($array)) {
             $this->navigation = $array;
         }
         return $this;
@@ -115,7 +115,7 @@ class Navigation{
      * Returns the navigation array
      * @return array Will return a blank array if not set else will return the menu array
      */
-    public function getNavigationArray(){
+    public function getNavigationArray() {
         return $this->navigation;
     }
     
@@ -124,8 +124,8 @@ class Navigation{
      * @param string $url This should be the URL of the page you want to set as the current page so active items can be retrieved
      * @return $this
      */
-    public function setCurrentURL($url){
-        if(is_string($url)){
+    public function setCurrentURL($url) {
+        if(is_string($url)) {
             $this->currentURL = strtolower($url);
             $this->getCurrent();
         }
@@ -136,7 +136,7 @@ class Navigation{
      * Gets the URL that is set as the current item
      * @return string This should be the URL set as the current location
      */
-    public function getCurrentURL(){
+    public function getCurrentURL() {
         return $this->currentURL;
     }
     
@@ -145,8 +145,8 @@ class Navigation{
      * @param string $className This should be the class value you want to add to active menu items
      * @return $this
      */
-    public function setActiveClass($className){
-        if(!empty(trim($className))){
+    public function setActiveClass($className) {
+        if(!empty(trim($className))) {
             $this->activeClass = trim($className);
         }
         return $this;
@@ -156,7 +156,7 @@ class Navigation{
      * Returns the class(es) that is given to active menu and breadcrumb items
      * @return string The classes for active items is returned
      */
-    public function getActiveClass(){
+    public function getActiveClass() {
         return $this->activeClass;
     }
     
@@ -165,8 +165,8 @@ class Navigation{
      * @param string $classes This should be the class or lasses that you want to give to the navigation item
      * @return $this
      */
-    public function setNavigationClass($classes){
-        if(!empty(trim($classes))){
+    public function setNavigationClass($classes) {
+        if(!empty(trim($classes))) {
             $this->navigationClass = trim($classes);
         }
         return $this;
@@ -176,8 +176,8 @@ class Navigation{
      * Returns the navigation class(es) for the HTML item
      * @return string|false If the string is not empty will return the classes assigned else will return false
      */
-    public function getNavigationClass(){
-        if(!empty($this->navigationClass)){
+    public function getNavigationClass() {
+        if(!empty($this->navigationClass)) {
             return $this->navigationClass;
         }
         return false;
@@ -188,8 +188,8 @@ class Navigation{
      * @param string $id This should be the ID that you want to give to the HTML navigation object
      * @return $this
      */
-    public function setNavigationID($id){
-        if(!empty(trim($id))){
+    public function setNavigationID($id) {
+        if(!empty(trim($id))) {
             $this->navigationID = trim($id);
         }
         return $this;
@@ -199,8 +199,8 @@ class Navigation{
      * Returns the navigation ID string
      * @return string|false If the ID is not empty will return the ID string else will return false
      */
-    public function getNavigationID(){
-        if(!empty($this->navigationID)){
+    public function getNavigationID() {
+        if(!empty($this->navigationID)) {
             return $this->navigationID;
         }
         return false;
@@ -211,8 +211,8 @@ class Navigation{
      * @param string $classes This should be the classes that you want to give any sub-menu items on the UL elements
      * @return $this
      */
-    public function setDropDownClass($classes){
-        if(!empty(trim($classes))){
+    public function setDropDownClass($classes) {
+        if(!empty(trim($classes))) {
             $this->dropdownClass = trim($classes);
         }
         return $this;
@@ -222,8 +222,8 @@ class Navigation{
      * Returns the drop-down class for the UL elements if it is not empty
      * @return string|false If the drop-down class is not empty will return the classes else will return false
      */
-    public function getDropDownClass(){
-        if(!empty($this->dropdownClass)){
+    public function getDropDownClass() {
+        if(!empty($this->dropdownClass)) {
             return $this->dropdownClass;
         }
         return false;
@@ -234,8 +234,8 @@ class Navigation{
      * @param string $separator This should be the element you want as the separator for breadcrumb items;
      * @return $this
      */
-    public function setBreadcrumbSeparator($separator){
-        if($separator){
+    public function setBreadcrumbSeparator($separator) {
+        if($separator) {
             $this->separator = $separator;
         }
         return $this;
@@ -245,7 +245,7 @@ class Navigation{
      * The breadcrumb separator will be returned
      * @return string The separator will be returned
      */
-    public function getBreadcrumbSeparator(){
+    public function getBreadcrumbSeparator() {
         return $this->separator;
     }
     
@@ -254,8 +254,8 @@ class Navigation{
      * @param string $element The main element you want to give to the breadcrumb
      * @return $this
      */
-    public function setBreadcrumbElement($element){
-        if(!empty(trim($element))){
+    public function setBreadcrumbElement($element) {
+        if(!empty(trim($element))) {
             $this->breadcrumbElement = trim($element);
         }
         return $this;
@@ -265,8 +265,8 @@ class Navigation{
      * Returns the breadcrumb element type
      * @return string false Returns the element to surround the breadcrumb items with (default is UL)
      */
-    public function getBreadcrumbElement(){
-        if(!empty($this->breadcrumbElement)){
+    public function getBreadcrumbElement() {
+        if(!empty($this->breadcrumbElement)) {
             return $this->breadcrumbElement;
         }
         return false;
@@ -275,14 +275,14 @@ class Navigation{
     /**
      * Creates the current menu items which are selected from the navigation item hierarchy
      */
-    public function getCurrent(){
+    protected function getCurrent() {
         $found = false;
         $navItem = $this->parseArray();
-        foreach($navItem as $item => $itemURL){
+        foreach($navItem as $item => $itemURL) {
             $this->current[$navItem->getDepth()]['text'] = $item;
             $this->current[$navItem->getDepth()]['link'] = $itemURL;
-            if($itemURL === $this->currentURL){
-                for($depth = ($navItem->getDepth() + 1); $depth <= 5; $depth++){
+            if($itemURL === $this->currentURL) {
+                for($depth = ($navItem->getDepth() + 1); $depth <= 5; $depth++) {
                     unset($this->current[$depth]);
                 }
                 $found = true;
@@ -290,7 +290,7 @@ class Navigation{
             }
         }
         
-        if($found !== true){
+        if($found !== true) {
             unset($this->current);
             $this->current[0]['text'] = key($this->navigation[0]);
             $this->current[0]['link'] = $this->navigation[0];
@@ -301,7 +301,7 @@ class Navigation{
      * Returns the current navigation structure
      * @return array
      */
-    public function getCurrentItems(){
+    public function getCurrentItems() {
         return $this->current;
     }
     
@@ -311,21 +311,21 @@ class Navigation{
      * @param int $startLevel Should be the starting level of the navigation
      * @return string|false Returns the navigation as a string if it exists else if no menu exists returns false
      */
-    public function createNavigation($levels = 0, $startLevel = 0){
+    public function createNavigation($levels = 0, $startLevel = 0) {
         $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
         $it = $this->parseArray();
         $items = 0;
-        foreach($it as $text => $link){
-            if(isset($link) && !is_numeric($text)){
+        foreach($it as $text => $link) {
+            if(isset($link) && !is_numeric($text)) {
                 $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? intval($levels) : ($levels + 1)), intval($startLevel));
             }
             $items++;
         }
         
-        for($i = $this->currentLevel; $i > 0; $i--){
+        for($i = $this->currentLevel; $i > 0; $i--) {
             $this->closeLevel();
         }
-        if($startLevel == 0){$this->closeLevel();}
+        if($startLevel == 0) {$this->closeLevel();}
         return ($items === 1 || $this->linkCount > 1 ? $this->navItem : false);
     }
     
@@ -333,16 +333,16 @@ class Navigation{
      * Creates a bread-crumb navigation from the $this->current array
      * @return string Returns the bread-crumb information as a string with all of the links included
      */
-    public function createBreadcrumb($list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item'){
+    public function createBreadcrumb($list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item') {
         $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
-        if($this->current[0]['link'] == '/'){
+        if($this->current[0]['link'] == '/') {
             $breadcrumb.= 'Home';
         }
         else{
             $breadcrumb.= (($list === true && $this->isBreadcrumbList() !== false) ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : '').'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');
             $numlinks = count($this->current);
-            for($i = 0; $i < $numlinks; $i++){
-                if($i == ($numlinks - 1)){$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
+            for($i = 0; $i < $numlinks; $i++) {
+                if($i == ($numlinks - 1)) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
                 else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
             }
         }
@@ -357,31 +357,31 @@ class Navigation{
      * @param int|false $levels The maximum number of levels to show
      * @param int $start The level that you wish to start at when building the menu
      */
-    protected function buildMenu($it, $text, $link, $levels, $start){
+    protected function buildMenu($it, $text, $link, $levels, $start) {
         $current = ($link === $this->current[$it->getDepth()]['link'] ? ' class="'.$this->getActiveClass().'"' : '');
                 
-        if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub === true){
-            if($start !== 0 && $link === $this->current[($start - 1)]['link']){$this->sub = true;}
-            if($levels === 0 || $it->getDepth() < $levels){
-                if(is_numeric($this->currentLevel)){
-                    if($start != 0 && $this->currentLevel == 0){$this->currentLevel = 1;}
-                    if($this->currentLevel == $it->getDepth()){
+        if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub === true) {
+            if($start !== 0 && $link === $this->current[($start - 1)]['link']) {$this->sub = true;}
+            if($levels === 0 || $it->getDepth() < $levels) {
+                if(is_numeric($this->currentLevel)) {
+                    if($start != 0 && $this->currentLevel == 0) {$this->currentLevel = 1;}
+                    if($this->currentLevel == $it->getDepth()) {
                         $this->nextItem($it, $start, $current);
                     }
-                    elseif($this->currentLevel < $it->getDepth()){
-                        for($i = $this->currentLevel; $i < $it->getDepth(); $i++){$this->navItem.= '<ul'.($this->getDropDownClass() ? ' class="'.$this->getDropDownClass().'"' : '').'><li'.$current.'>';}
+                    elseif($this->currentLevel < $it->getDepth()) {
+                        for($i = $this->currentLevel; $i < $it->getDepth(); $i++) {$this->navItem.= '<ul'.($this->getDropDownClass() ? ' class="'.$this->getDropDownClass().'"' : '').'><li'.$current.'>';}
                     }
                     else{
-                        for($i = $it->getDepth(); $i < $this->currentLevel; $i++){$this->closeLevel();}
+                        for($i = $it->getDepth(); $i < $this->currentLevel; $i++) {$this->closeLevel();}
                         $this->nextItem($it, $start, $current);
                     }
                 }
-                elseif($start === 0 || ($this->sub === true && $it->getDepth() >= $start)){
+                elseif($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {
                     $this->navItem.= '<li'.$current.'>';
                 }
 
                 $this->currentLevel = $it->getDepth();
-                if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)){$this->navItem.= $this->createLinkItem($link, $text, $start);}
+                if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {$this->navItem.= $this->createLinkItem($link, $text, $start);}
             }
         }
     }
@@ -392,15 +392,15 @@ class Navigation{
      * @param int $start The start level of the menu
      * @param string $current This should be the current string 
      */
-    protected function nextItem($it, $start, $current){
-        if($this->sub === true && ($start - 1) == $it->getDepth()){$this->sub = false;}
+    protected function nextItem($it, $start, $current) {
+        if($this->sub === true && ($start - 1) == $it->getDepth()) {$this->sub = false;}
         else{$this->navItem.= ($this->linkCount >= 1 ? '</li>' : '').'<li'.$current.'>';}
     }
     
     /**
      * Close the current level
      */
-    protected function closeLevel(){
+    protected function closeLevel() {
         $this->navItem.= '</li></ul>';
     }
 
@@ -410,12 +410,12 @@ class Navigation{
      * @param string $text This should be the link/option text value
      * @return string
      */
-    protected function createLinkItem($link, $text, $start){
-        if($link == $this->current[0]['link'] || $link == $this->current[1]['link'] || $link == $this->current[2]['link'] || $link == $this->current[3]['link']){
+    protected function createLinkItem($link, $text, $start) {
+        if($link == $this->current[0]['link'] || $link == $this->current[1]['link'] || $link == $this->current[2]['link'] || $link == $this->current[3]['link']) {
             $current = (($start >= 1 && $link == $this->current[0]['link'] && isset($this->current[1]['link'])) ? '' : ' class="'.$this->getActiveClass().'"');
         }
         else{$current = '';}
-        if($this->current[0]['link'] == $link && $link == '/'){$href = '';}else{$href = ' href="'.$link.'"';}
+        if($this->current[0]['link'] == $link && $link == '/') {$href = '';}else{$href = ' href="'.$link.'"';}
         $this->linkCount++;
         return '<a'.$href.' title="'.$text.'"'.$current.'>'.$text.'</a>';
     }
@@ -424,8 +424,8 @@ class Navigation{
      * Iterates through the list of menu items
      * @return object 
      */
-    protected function parseArray(){
-        if(!is_object($this->nav)){
+    protected function parseArray() {
+        if(!is_object($this->nav)) {
             $this->nav = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->getNavigationArray()));
         }
         return $this->nav;
@@ -435,8 +435,8 @@ class Navigation{
      * Checks to see if breadcrumb element is a list style
      * @return boolean Will return true if element is either UL or OL else will return false
      */
-    protected function isBreadcrumbList(){
-        if(strtolower($this->breadcrumbElement) === 'ul' || strtolower($this->breadcrumbElement) === 'ol'){return true;}
+    protected function isBreadcrumbList() {
+        if(strtolower($this->breadcrumbElement) === 'ul' || strtolower($this->breadcrumbElement) === 'ol') {return true;}
         return false;
     }
 }
