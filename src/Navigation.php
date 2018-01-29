@@ -290,7 +290,7 @@ class Navigation{
             }
         }
         
-        if($found != true){
+        if($found !== true){
             unset($this->current);
             $this->current[0]['text'] = key($this->navigation[0]);
             $this->current[0]['link'] = $this->navigation[0];
@@ -334,19 +334,19 @@ class Navigation{
      * @return string Returns the bread-crumb information as a string with all of the links included
      */
     public function createBreadcrumb($list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item'){
-        $breadcrumb = ($list === true && $this->getBreadcrumbElement() ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
+        $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
         if($this->current[0]['link'] == '/'){
             $breadcrumb.= 'Home';
         }
         else{
-            $breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : '').'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');
+            $breadcrumb.= (($list === true && $this->isBreadcrumbList() !== false) ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : '').'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');
             $numlinks = count($this->current);
             for($i = 0; $i < $numlinks; $i++){
                 if($i == ($numlinks - 1)){$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
                 else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
             }
         }
-        return $breadcrumb.($list === true && $this->getBreadcrumbElement() ? '</'.$this->getBreadcrumbElement().'>' : '');
+        return $breadcrumb.(($list === true && $this->getBreadcrumbElement() !== false) ? '</'.$this->getBreadcrumbElement().'>' : '');
     }
     
     /**
@@ -360,7 +360,7 @@ class Navigation{
     protected function buildMenu($it, $text, $link, $levels, $start){
         $current = ($link === $this->current[$it->getDepth()]['link'] ? ' class="'.$this->getActiveClass().'"' : '');
                 
-        if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub == true){
+        if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub === true){
             if($start !== 0 && $link === $this->current[($start - 1)]['link']){$this->sub = true;}
             if($levels === 0 || $it->getDepth() < $levels){
                 if(is_numeric($this->currentLevel)){
@@ -376,12 +376,12 @@ class Navigation{
                         $this->nextItem($it, $start, $current);
                     }
                 }
-                elseif($start === 0 || ($this->sub == true && $it->getDepth() >= $start)){
+                elseif($start === 0 || ($this->sub === true && $it->getDepth() >= $start)){
                     $this->navItem.= '<li'.$current.'>';
                 }
 
                 $this->currentLevel = $it->getDepth();
-                if($start === 0 || ($this->sub == true && $it->getDepth() >= $start)){$this->navItem.= $this->createLinkItem($link, $text, $start);}
+                if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)){$this->navItem.= $this->createLinkItem($link, $text, $start);}
             }
         }
     }
@@ -393,7 +393,7 @@ class Navigation{
      * @param string $current This should be the current string 
      */
     protected function nextItem($it, $start, $current){
-        if($this->sub == true && ($start - 1) == $it->getDepth()){$this->sub = false;}
+        if($this->sub === true && ($start - 1) == $it->getDepth()){$this->sub = false;}
         else{$this->navItem.= ($this->linkCount >= 1 ? '</li>' : '').'<li'.$current.'>';}
     }
     
