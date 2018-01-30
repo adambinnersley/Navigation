@@ -106,6 +106,7 @@ class MegaMenu extends Navigation{
 
 
     private function linkArray($array) {
+        $menu = '';
         if(is_array($array)) {
             foreach($array as $text => $link) {
                 if($link == $this->current[1]['link'] || $link == $this->current[2]['link'] || $link == $this->current[3]['link']) {
@@ -135,6 +136,7 @@ class MegaMenu extends Navigation{
         elseif(count($links) <= 34) {$rows = 4;}
         else {$rows = 6;}
         $items = (ceil(count($links) / $rows) + 1);
+        $linkarray = array();
         for($i = 0; $i < $rows; $i++) {
             $linkarray[] = array_slice($links, ($items * $i), $items);
         }
