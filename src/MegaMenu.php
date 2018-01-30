@@ -144,6 +144,7 @@ class MegaMenu extends Navigation{
     }
     
     protected function getLinkItem($link) {
+        $item = array();
         if(is_array($link)) {
             $item['link'] = $link[0];
             $item['num'] = (count($link, COUNT_RECURSIVE) - 1);
