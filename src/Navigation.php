@@ -363,25 +363,7 @@ class Navigation{
         if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub === true) {
             if($start !== 0 && $link === $this->current[($start - 1)]['link']) {$this->sub = true;}
             if($levels === 0 || $it->getDepth() < $levels) {
-                if(is_numeric($this->currentLevel)) {
-                    if($start != 0 && $this->currentLevel == 0) {$this->currentLevel = 1;}
-                    if($this->currentLevel == $it->getDepth()) {
-                        $this->nextItem($it, $start, $current);
-                    }
-                    elseif($this->currentLevel < $it->getDepth()) {
-                        for($i = $this->currentLevel; $i < $it->getDepth(); $i++) {$this->navItem.= '<ul'.($this->getDropDownClass() ? ' class="'.$this->getDropDownClass().'"' : '').'><li'.$current.'>';}
-                    }
-                    else{
-                        for($i = $it->getDepth(); $i < $this->currentLevel; $i++) {$this->closeLevel();}
-                        $this->nextItem($it, $start, $current);
-                    }
-                }
-                elseif($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {
-                    $this->navItem.= '<li'.$current.'>';
-                }
-
-                $this->currentLevel = $it->getDepth();
-                if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {$this->navItem.= $this->createLinkItem($link, $text, $start);}
+                $this->buildItem($it, $text, $link, $start, $current);
             }
         }
     }
@@ -395,6 +377,36 @@ class Navigation{
     protected function nextItem($it, $start, $current) {
         if($this->sub === true && ($start - 1) == $it->getDepth()) {$this->sub = false;}
         else{$this->navItem.= ($this->linkCount >= 1 ? '</li>' : '').'<li'.$current.'>';}
+    }
+    
+    /**
+     * Creates an element to add to the navigation
+     * @param object $it This should be the object created withe parsing the array items
+     * @param string $text This is the menu item text
+     * @param string $link This is the menu item link
+     * @param int $start The level that you wish to start at when building the menu
+     * @param string $current If this item is a current element will have the class information as part of the string
+     */
+    protected function buildItem($it, $text, $link, $start, $current) {
+        if(is_numeric($this->currentLevel)) {
+            if($start != 0 && $this->currentLevel == 0) {$this->currentLevel = 1;}
+            if($this->currentLevel == $it->getDepth()) {
+                $this->nextItem($it, $start, $current);
+            }
+            elseif($this->currentLevel < $it->getDepth()) {
+                for($i = $this->currentLevel; $i < $it->getDepth(); $i++) {$this->navItem.= '<ul'.($this->getDropDownClass() ? ' class="'.$this->getDropDownClass().'"' : '').'><li'.$current.'>';}
+            }
+            else{
+                for($i = $it->getDepth(); $i < $this->currentLevel; $i++) {$this->closeLevel();}
+                $this->nextItem($it, $start, $current);
+            }
+        }
+        elseif($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {
+            $this->navItem.= '<li'.$current.'>';
+        }
+
+        $this->currentLevel = $it->getDepth();
+        if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {$this->navItem.= $this->createLinkItem($link, $text, $start);}
     }
     
     /**
