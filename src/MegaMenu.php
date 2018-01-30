@@ -151,7 +151,7 @@ class MegaMenu extends Navigation{
     }
     
     protected function checkIfCurrentLink($link, $start = 1, $level = ''){
-        if(($start === 1 && ($link['link'] == $this->current[1]['link'] || $link['link'] == $this->current[2]['link'] || $link['link'] == $this->current[3]['link']) && $level != 0) || ($start = 0 && $link['link'] == $this->current[0]['link'] || $link['link'] == $this->current[1]['link'])) {
+        if(($start === 1 && ($link['link'] == $this->current[1]['link'] || $link['link'] == $this->current[2]['link'] || $link['link'] == $this->current[3]['link']) && $level != 0) || ($start === 0 && $link['link'] == $this->current[0]['link'] || $link['link'] == $this->current[1]['link'])) {
             return ' class="'.$this->getActiveClass().'"';
         }
         return '';
