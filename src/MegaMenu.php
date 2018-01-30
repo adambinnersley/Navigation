@@ -41,8 +41,7 @@ class MegaMenu extends Navigation{
         $nav = '<ul'.($this->getNavigationClass() !== false ? ' class="'.$this->getNavigationClass().'"' : '').($this->getNavigationID() !== false ? ' id="'.$this->getNavigationClass().'"' : '').'>';
         foreach($this->megamenu as $text => $link) {
             $itemlink = $this->getLinkItem($link);
-            if($itemlink['link'] == $this->current[0]['link'] || $itemlink['link'] == $this->current[1]['link']) {$current = ' class="'.$this->getActiveClass().'"';}
-            else {$current = '';}
+            $current = $this->checkIfCurrentLink($itemlink['link'], 0);
             $nav.= '<li'.($itemlink['num'] >= 1 ? ' class="'.(($itemlink['link'] == $this->current[0]['link'] || $itemlink['link'] == $this->current[1]['link']) ? $this->getActiveClass().' ' : '').($itemlink['num'] > 10 ? 'mega-dropdown dropdown' : 'dropdown').'"' : $current).'>'.($span ? '<span>' : '').'<a href="'.$itemlink['link'].'" title="'.$text.'"'.$current.($itemlink['num'] >= 1 ? ' data-toggle="dropdown"' : '').'>'.$text.($itemlink['num'] >= 1 && $this->getDropDownElement() !== false ? $this->getDropDownElement() : '').($span ? '</span>' : '').'</a>';
             if($itemlink['num'] >= 1) {
                 $nav.= $this->buildSubMenu($link, $itemlink['num'], $ddclass);
@@ -96,9 +95,7 @@ class MegaMenu extends Navigation{
     protected function buildColumn($column, $numColumns){
         $menu = '<li class="col-sm-'.(12 / $numColumns).'"><ul>';
         foreach($column as $text => $link) {
-            if(($link['link'] == $this->current[1]['link'] || $link['link'] == $this->current[2]['link'] || $link['link'] == $this->current[3]['link']) && $link['level'] != 0) {$current = ' class="'.$this->getActiveClass().'"';}
-            else {$current = '';}
-            $menu.= '<li'.$current.'><a href="'.$link['link'].'" title="'.$text.'"'.($link['level'] == 0 ? ' class="dropdown-header"' : '').'>'.$text.'</a></li>';
+            $menu.= '<li'.$this->checkIfCurrentLink($link['link'], 1, $link['level']).'><a href="'.$link['link'].'" title="'.$text.'"'.($link['level'] == 0 ? ' class="dropdown-header"' : '').'>'.$text.'</a></li>';
         }
         $menu.= '</ul></li>';
         return $menu;
@@ -109,10 +106,7 @@ class MegaMenu extends Navigation{
         $menu = '';
         if(is_array($array)) {
             foreach($array as $text => $link) {
-                if($link == $this->current[1]['link'] || $link == $this->current[2]['link'] || $link == $this->current[3]['link']) {
-                    $current = ' class="'.$this->getActiveClass().'"';
-                }
-                else {$current = '';}
+                $current = $this->checkIfCurrentLink($link);
                 $menu.= '<li'.$current.'><a href="'.$link.'" title="'.$text.'"'.$current.'>'.$text.'</a></li>';
             }
         }
@@ -154,5 +148,12 @@ class MegaMenu extends Navigation{
             $item['num'] = 0;
         }
         return $item;
+    }
+    
+    protected function checkIfCurrentLink($link, $start = 1, $level = ''){
+        if(($start === 1 && ($link['link'] == $this->current[1]['link'] || $link['link'] == $this->current[2]['link'] || $link['link'] == $this->current[3]['link']) && $level != 0) || ($start = 0 && $link['link'] == $this->current[0]['link'] || $link['link'] == $this->current[1]['link'])) {
+            return ' class="'.$this->getActiveClass().'"';
+        }
+        return '';
     }
 }
