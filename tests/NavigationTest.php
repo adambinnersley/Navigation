@@ -51,6 +51,8 @@ class NavigationTest extends TestCase{
     /**
      * @covers \Nav\Navigation::setCurrentURL
      * @covers \Nav\Navigation::getCurrentURL
+     * @covers \Nav\Navigation::getCurrent
+     * @covers \Nav\Navigation::parseArray
      */
     public function testSetCurrentURL() {
         // Test its returning the correct string first of all
