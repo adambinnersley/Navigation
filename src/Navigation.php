@@ -252,7 +252,7 @@ class Navigation{
      * @return $this
      */
     public function setBreadcrumbElement($element) {
-        if(!empty(trim($element))) {
+        if(!empty(trim($element)) && is_string($element)) {
             $this->breadcrumbElement = trim($element);
         }
         return $this;
