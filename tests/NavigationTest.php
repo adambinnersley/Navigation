@@ -155,15 +155,15 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::getBreadcrumbSeparator
      */
     public function testSetBreadcrumbSeparator() {
-        $this->assertEquals(' &gt; ', $this->navigation->getBreadcrumbElement());
-        $this->assertObjectHasAttribute('currentURL', $this->navigation->setBreadcrumbElement(' / '));
-        $this->assertEquals(' / ', $this->navigation->getBreadcrumbElement());
+        $this->assertEquals(' &gt; ', $this->navigation->getBreadcrumbSeparator());
+        $this->assertObjectHasAttribute('currentURL', $this->navigation->setBreadcrumbSeparator(' / '));
+        $this->assertEquals(' / ', $this->navigation->getBreadcrumbSeparator());
         
         // Try setting in as a non-string variable
-        $this->assertObjectHasAttribute('currentURL', $this->navigation->setBreadcrumbElement(false));
-        $this->assertEquals(' / ', $this->navigation->getBreadcrumbElement());
+        $this->assertObjectHasAttribute('currentURL', $this->navigation->setBreadcrumbSeparator(false));
+        $this->assertEquals(' / ', $this->navigation->getBreadcrumbSeparator());
         
-        $this->navigation->setBreadcrumbElement(' &gt; ');
+        $this->navigation->setBreadcrumbSeparator(' &gt; ');
     }
 
 
