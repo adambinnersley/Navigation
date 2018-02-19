@@ -17,7 +17,7 @@ class MegaMenu extends Navigation{
      * @return $this
      */
     public function setDropDownElement($element){
-        if(!empty(trim(strip_tags($element, '<span><i><div>')))){
+        if(!empty(trim(strip_tags($element, '<span><i><div>'))) && is_string($element)){
             $this->dropdownElement = trim(strip_tags($element, '<span><i><div>'));
         }
         return $this;
@@ -28,10 +28,7 @@ class MegaMenu extends Navigation{
      * @return string|false
      */
     public function getDropDownElement(){
-        if(!empty($this->dropdownElement)){
-            return $this->dropdownElement;
-        }
-        return false;
+        return $this->dropdownElement;
     }
     
     public function createNavigation($levels = 0, $start = 0, $span = false, $ddclass = 'dropdown-menu') {
