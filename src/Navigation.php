@@ -174,13 +174,10 @@ class Navigation{
     
     /**
      * Returns the navigation class(es) for the HTML item
-     * @return string|false If the string is not empty will return the classes assigned else will return false
+     * @return string If the string is not empty will return the classes assigned else will return false
      */
     public function getNavigationClass() {
-        if(!empty($this->navigationClass)) {
-            return $this->navigationClass;
-        }
-        return false;
+        return $this->navigationClass;
     }
     
     /**
@@ -189,7 +186,7 @@ class Navigation{
      * @return $this
      */
     public function setNavigationID($id) {
-        if(!empty(trim($id)) && is_string($id)) {
+        if(is_string($id)) {
             $this->navigationID = trim($id);
         }
         return $this;
@@ -212,7 +209,7 @@ class Navigation{
      * @return $this
      */
     public function setDropDownClass($classes) {
-        if(!empty(trim($classes))) {
+        if(is_string($classes)) {
             $this->dropdownClass = trim($classes);
         }
         return $this;
