@@ -125,7 +125,7 @@ class Navigation{
      * @return $this
      */
     public function setCurrentURL($url) {
-        if(is_string($url)) {
+        if(is_string($url) && in_array($url, $this->getNavigationArray())) {
             $this->currentURL = strtolower($url);
             $this->getCurrent();
         }
@@ -146,7 +146,7 @@ class Navigation{
      * @return $this
      */
     public function setActiveClass($className) {
-        if(!empty(trim($className))) {
+        if(!empty(trim($className)) && is_string($className)) {
             $this->activeClass = trim($className);
         }
         return $this;
@@ -166,7 +166,7 @@ class Navigation{
      * @return $this
      */
     public function setNavigationClass($classes) {
-        if(!empty(trim($classes))) {
+        if(!empty(trim($classes)) && is_string($classes)) {
             $this->navigationClass = trim($classes);
         }
         return $this;
@@ -189,7 +189,7 @@ class Navigation{
      * @return $this
      */
     public function setNavigationID($id) {
-        if(!empty(trim($id))) {
+        if(!empty(trim($id)) && is_string($id)) {
             $this->navigationID = trim($id);
         }
         return $this;
