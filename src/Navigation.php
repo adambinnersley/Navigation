@@ -125,7 +125,7 @@ class Navigation{
      * @return $this
      */
     public function setCurrentURL($url) {
-        if(is_string($url) && in_array($url, $this->getNavigationArray())) {
+        if(is_string($url)) {
             $this->currentURL = strtolower($url);
             $this->getCurrent();
         }
