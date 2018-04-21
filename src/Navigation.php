@@ -309,6 +309,9 @@ class Navigation{
      * @return string|false Returns the navigation as a string if it exists else if no menu exists returns false
      */
     public function createNavigation($levels = 0, $startLevel = 0) {
+        $this->linkCount = 0;
+        $this->sub = false;
+        $this->currentLevel = false;
         $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
         $it = $this->parseArray();
         $items = 0;
