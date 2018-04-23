@@ -65,11 +65,6 @@ class NavigationTest extends TestCase{
         // Test when inserting a correct value
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setCurrentURL('/sample'));
         $this->assertEquals('/sample', $this->navigation->getCurrentURL());
-        
-        // Test when inserting a string value that isn't a URL in the array
-        $this->assertObjectHasAttribute('currentURL', $this->navigation->setCurrentURL('/hippos'));
-        $this->assertNotEquals('/hippos', $this->navigation->getCurrentURL());
-        $this->assertEquals('/sample', $this->navigation->getCurrentURL());
     }
     
     /**
