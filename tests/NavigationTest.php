@@ -23,11 +23,11 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setNavigationArray
      * @covers \Nav\Navigation::setCurrentURL
      */
-    public function setUp() {
+    public function setUp() : void {
         $this->navigation = new Navigation($this->simpleNav, '/');
     }
     
-    public function tearDown() {
+    public function tearDown() : void {
         $this->navigation = null;
     }
     
