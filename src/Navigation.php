@@ -9,7 +9,7 @@ class Navigation{
      * This should be the array that you wish to build the menu from
      * @var array 
      */
-    protected $navigation = array();
+    protected $navigation = [];
     
     /**
      * The current items as an array to allow the class to build the breadcrumb
@@ -421,13 +421,26 @@ class Navigation{
      * @return string
      */
     protected function createLinkItem($link, $text, $start) {
-        if($link == $this->current[0]['link'] || $link == $this->current[1]['link'] || $link == $this->current[2]['link'] || $link == $this->current[3]['link']) {
+        if($this->checkLinkOffsetMatch($link, 0) || $this->checkLinkOffsetMatch($link, 1) || $this->checkLinkOffsetMatch($link, 2) || $this->checkLinkOffsetMatch($link, 3)) {
             $current = (($start >= 1 && $link == $this->current[0]['link'] && isset($this->current[1]['link'])) ? '' : ' class="'.$this->getActiveClass().'"');
         }
         else{$current = '';}
         if($this->current[0]['link'] == $link && $link == '/') {$href = '';}else{$href = ' href="'.$link.'"';}
         $this->linkCount++;
         return '<a'.$href.' title="'.$text.'"'.$current.'>'.$text.'</a>';
+    }
+    
+    /**
+     * Checks to see if a link matches the link in one of the current arrays
+     * @param string $link This should be the link you are checking for
+     * @param int $offset The offset point in the array
+     * @return boolean If it matches will return true else will return false 
+     */
+    protected function checkLinkOffsetMatch($link, $offset){
+        if(isset($this->current[$offset]['link'])){
+            if($link == $this->current[$offset]['link']){return true;}
+        }
+        return false;
     }
     
     /**
