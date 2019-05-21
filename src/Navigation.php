@@ -356,10 +356,10 @@ class Navigation{
      * @param int $start The level that you wish to start at when building the menu
      */
     protected function buildMenu($it, $text, $link, $levels, $start) {
-        $current = ($link === $this->current[$it->getDepth()]['link'] ? ' class="'.$this->getActiveClass().'"' : '');
+        $current = ($this->checkLinkOffsetMatch($link, $it->getDepth()) ? ' class="'.$this->getActiveClass().'"' : '');
                 
-        if($start === 0 || $link === $this->current[($start - 1)]['link'] || $this->sub === true) {
-            if($start !== 0 && $link === $this->current[($start - 1)]['link']) {$this->sub = true;}
+        if($start === 0 || $this->checkLinkOffsetMatch($link, ($start - 1)) || $this->sub === true) {
+            if($start !== 0 && $this->checkLinkOffsetMatch($link, ($start - 1))) {$this->sub = true;}
             if($levels === 0 || $it->getDepth() < $levels) {
                 $this->buildItem($it, $text, $link, $start, $current);
             }
