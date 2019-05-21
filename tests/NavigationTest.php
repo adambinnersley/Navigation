@@ -74,7 +74,7 @@ class NavigationTest extends TestCase{
     public function testSetActiveClass() {
         $this->assertEquals('active', $this->navigation->getActiveClass());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setActiveClass('current custom_ac'));
-        $this->assertNotContains('active', $this->navigation->getActiveClass());
+        $this->assertStringNotContainsString('active', $this->navigation->getActiveClass());
         $this->assertEquals('current custom_ac', $this->navigation->getActiveClass());
         
         // Try to set an empty value
@@ -95,7 +95,7 @@ class NavigationTest extends TestCase{
     public function testSetNavigationClass() {
         $this->assertEquals('nav navbar-nav', $this->navigation->getNavigationClass());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setNavigationClass('my_navigation_class'));
-        $this->assertNotContains('nav navbar-nav', $this->navigation->getNavigationClass());
+        $this->assertStringNotContainsString('nav navbar-nav', $this->navigation->getNavigationClass());
         $this->assertEquals('my_navigation_class', $this->navigation->getNavigationClass());
         
         // Try to set an empty value
