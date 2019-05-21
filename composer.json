@@ -3,8 +3,9 @@
     "description": "Creates a navigation menu from a multi-dimentional array",
     "type": "library",
     "require": {
-	},
+    },
     "require-dev": {
+        "phpunit/phpunit": "^8.1"
     },
     "license": "MIT",
     "authors": [
