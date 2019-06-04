@@ -422,10 +422,10 @@ class Navigation{
      */
     protected function createLinkItem($link, $text, $start) {
         if($this->checkLinkOffsetMatch($link, 0) || $this->checkLinkOffsetMatch($link, 1) || $this->checkLinkOffsetMatch($link, 2) || $this->checkLinkOffsetMatch($link, 3)) {
-            $current = (($start >= 1 && $link == $this->current[0]['link'] && isset($this->current[1]['link'])) ? '' : ' class="'.$this->getActiveClass().'"');
+            $current = (($start >= 1 && $this->checkLinkOffsetMatch($link, 0) && isset($this->current[1]['link'])) ? '' : ' class="'.$this->getActiveClass().'"');
         }
         else{$current = '';}
-        if($this->current[0]['link'] == $link && $link == '/') {$href = '';}else{$href = ' href="'.$link.'"';}
+        if($this->checkLinkOffsetMatch($link, 0) && $link == '/') {$href = '';}else{$href = ' href="'.$link.'"';}
         $this->linkCount++;
         return '<a'.$href.' title="'.$text.'"'.$current.'>'.$text.'</a>';
     }
