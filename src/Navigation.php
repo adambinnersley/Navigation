@@ -333,7 +333,7 @@ class Navigation{
      */
     public function createBreadcrumb($list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item') {
         $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
-        if($this->current[0]['link'] == '/') {
+        if($this->checkLinkOffsetMatch('/', 0)) {
             $breadcrumb.= 'Home';
         }
         else{
