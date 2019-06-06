@@ -362,7 +362,7 @@ class Navigation{
     protected function createAdditionalBreadcrumbItems($additionalLinks = false, $list = true, $itemClass = 'breadcrumb-item') {
         if(is_array($additionalLinks)){
             $breadcrumb = '';
-            foreach($additionalLinks as $i => $item) {
+            foreach($additionalLinks as $item) {
                 if(isset($item['current']) && $item['current'] === true) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$item['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
                 else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$item['link'].'" title="'.$item['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$item['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
             }
