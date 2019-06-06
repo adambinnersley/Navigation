@@ -329,9 +329,13 @@ class Navigation{
     
     /**
      * Creates a bread-crumb navigation from the $this->current array
+     * @param false|array $additionalLinks Any additional link to add to the end of the breadcrumb item
+     * @param boolean $list If your breadcrumb is in list format set to true else set to false
+     * @param string $class The class to give to the main breadcrumb element
+     * @param string $itemClass The class to give to each of the breadcrumb elements
      * @return string Returns the bread-crumb information as a string with all of the links included
      */
-    public function createBreadcrumb($list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item') {
+    public function createBreadcrumb($additionalLinks = false, $list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item') {
         $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
         if($this->checkLinkOffsetMatch('/', 0)) {
             $breadcrumb.= 'Home';
@@ -343,8 +347,28 @@ class Navigation{
                 if($i == ($numlinks - 1)) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
                 else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
             }
+            $breadcrumb.= $this->createAdditionalBreadcrumbItems($additionalLinks, $list, $itemClass);
         }
         return $breadcrumb.(($list === true && $this->getBreadcrumbElement() !== false) ? '</'.$this->getBreadcrumbElement().'>' : '');
+    }
+    
+    /**
+     * Creates any additional breadcrumb elements
+     * @param false|array $additionalLinks Any additional link to add to the end of the breadcrumb item
+     * @param boolean $list If your breadcrumb is in list format set to true else set to false
+     * @param string $itemClass The class to give to each of the breadcrumb elements
+     * @return string
+     */
+    protected function createAdditionalBreadcrumbItems($additionalLinks = false, $list = true, $itemClass = 'breadcrumb-item') {
+        if(is_array($additionalLinks)){
+            $breadcrumb = '';
+            foreach($additionalLinks as $i => $item) {
+                if(isset($item['current']) && $item['current'] === true) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$item['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
+                else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$item['link'].'" title="'.$item['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$item['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
+            }
+            return $breadcrumb;
+        }
+        return '';
     }
     
     /**
