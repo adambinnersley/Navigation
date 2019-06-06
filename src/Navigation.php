@@ -344,7 +344,7 @@ class Navigation{
             $breadcrumb.= (($list === true && $this->isBreadcrumbList() !== false) ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : '').'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');
             $numlinks = count($this->current);
             for($i = 0; $i < $numlinks; $i++) {
-                if($i == ($numlinks - 1)) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
+                if($i == ($numlinks - 1) && $additionalLinks === false) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
                 else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
             }
             $breadcrumb.= $this->createAdditionalBreadcrumbItems($additionalLinks, $list, $itemClass);
@@ -362,8 +362,9 @@ class Navigation{
     protected function createAdditionalBreadcrumbItems($additionalLinks = false, $list = true, $itemClass = 'breadcrumb-item') {
         if(is_array($additionalLinks)){
             $breadcrumb = '';
-            foreach($additionalLinks as $item) {
-                if(isset($item['current']) && $item['current'] === true) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$item['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
+            $numLinks = count($additionalLinks);
+            foreach($additionalLinks as $i => $item) {
+                if($i == ($numLinks - 1)) {$breadcrumb.= ($list === true ? '<'.($this->isBreadcrumbList() ? 'li' : 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$item['text'].($list === true ? '</'.($this->isBreadcrumbList() ? 'li' : 'span').'>' : '');}
                 else{$breadcrumb.= ($list === true && $this->isBreadcrumbList() ? '<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>' : ($list !== true ? $this->getBreadcrumbSeparator() : '')).'<a href="'.$item['link'].'" title="'.$item['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$item['text'].'</a>'.($list === true && $this->isBreadcrumbList() ? '</li>' : '');}
             }
             return $breadcrumb;
