@@ -90,6 +90,18 @@ class Navigation{
     public $breadcrumbElement = 'ul';
     
     /**
+     *The type of element to wrap any text in links with e.g. span
+     * @var string
+     */
+    public $textWrap = '';
+    
+    /**
+     * If you only want to wrap text for top level links set to true else will wrap for all link levels
+     * @var boolean
+     */
+    public $onlyWrapTL = true;
+    
+    /**
      * Gets the navigation items and sets the current menu hierarchy
      * @param array $navArray
      * @param string $currentUrl This should be the URL of the current page
@@ -270,6 +282,44 @@ class Navigation{
     }
     
     /**
+     * Sets the element to wrap link text with e.g span or div
+     * @param string $element This should be the element type e.g. 'span'
+     * @return $this
+     */
+    public function setLinkTextWrapElement($element) {
+        if(!empty(trim($element)) && is_string($element)) {
+            $this->textWrap = $element;
+        }
+        return $this;
+    }
+    
+    /**
+     * Gets the link text wrap element if its set
+     * @return string
+     */
+    public function getLinkTextWrapElement() {
+        return $this->textWrap;
+    }
+    
+    /**
+     * Sets if link text should only be wrapped in the element for top level links only
+     * @param boolean $boolean If you only want to wrap top level link text with the given element st to true else for all links set to false
+     * @return $this
+     */
+    public function setLinkTextWrapTLOnly($boolean) {
+        $this->onlyWrapTL = boolval($boolean);
+        return $this;
+    }
+    
+    /**
+     * Gets the link text wrap only top level links only setting
+     * @return boolean
+     */
+    public function getLinkTextWrapTLOnly() {
+        return boolval($this->onlyWrapTL);
+    }
+    
+    /**
      * Creates the current menu items which are selected from the navigation item hierarchy
      */
     protected function getCurrent() {
@@ -439,7 +489,7 @@ class Navigation{
         }
 
         $this->currentLevel = $it->getDepth();
-        if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {$this->navItem.= $this->createLinkItem($link, $text, $start);}
+        if($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {$this->navItem.= $this->createLinkItem($link, $text, $start, $it->getDepth());}
     }
     
     /**
@@ -455,14 +505,27 @@ class Navigation{
      * @param string $text This should be the link/option text value
      * @return string
      */
-    protected function createLinkItem($link, $text, $start) {
+    protected function createLinkItem($link, $text, $start, $depth) {
         if($this->checkLinkOffsetMatch($link, 0) || $this->checkLinkOffsetMatch($link, 1) || $this->checkLinkOffsetMatch($link, 2) || $this->checkLinkOffsetMatch($link, 3)) {
             $current = (($start >= 1 && $this->checkLinkOffsetMatch($link, 0) && isset($this->current[1]['link'])) ? '' : ' class="'.$this->getActiveClass().'"');
         }
         else{$current = '';}
         if($this->checkLinkOffsetMatch($link, 0) && $link == '/') {$href = '';}else{$href = ' href="'.$link.'"';}
         $this->linkCount++;
-        return '<a'.$href.' title="'.$text.'"'.$current.'>'.$text.'</a>';
+        return '<a'.$href.' title="'.$text.'"'.$current.'>'.$this->textWrap($text, $depth).'</a>';
+    }
+    
+    /**
+     * If the link text needs to be wrapped with an element will be done here else will just return original value 
+     * @param string $text The text for the link element
+     * @param int $depth The depth of the current link element
+     * @return string Will return the link text string
+     */
+    protected function textWrap($text, $depth) {
+        if(empty($this->getLinkTextWrapElement()) || ($depth >= 1 && $this->getLinkTextWrapTLOnly() === true)){
+            return $text;
+        }
+        return '<'.$this->getLinkTextWrapElement().'>'.$text.'</'.$this->getLinkTextWrapElement().'>';
     }
     
     /**
