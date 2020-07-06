@@ -388,7 +388,7 @@ class Navigation{
     public function createBreadcrumb($additionalLinks = false, $list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item') {
         $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
         if($this->checkLinkOffsetMatch('/', 0)) {
-            $breadcrumb.= 'Home';
+            $breadcrumb.= $this->displayBreadcrumbItem('<li class="'.$itemClass.' '.$this->getActiveClass().'">', '').'Home'.$this->displayBreadcrumbItem('<li>', '');
         }
         else{
             $breadcrumb.= $this->displayBreadcrumbItem('<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>', '', $list).'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
