@@ -363,11 +363,13 @@ class Navigation{
         $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
         $it = $this->parseArray();
         $items = 0;
-        foreach($it as $text => $link) {
-            if(isset($link) && !is_numeric($text)) {
-                $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? intval($levels) : ($levels + 1)), intval($startLevel));
+        if(is_array($it)) {
+            foreach($it as $text => $link) {
+                if(isset($link) && !is_numeric($text)) {
+                    $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? intval($levels) : ($levels + 1)), intval($startLevel));
+                }
+                $items++;
             }
-            $items++;
         }
         
         for($i = $this->currentLevel; $i > 0; $i--) {
@@ -392,7 +394,7 @@ class Navigation{
         }
         else{
             $breadcrumb.= $this->displayBreadcrumbItem('<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>', '', $list).'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
-            $numlinks = count($this->current);
+            $numlinks = (is_array($this->current) ? count($this->current) : 0);
             for($i = 0; $i < $numlinks; $i++) {
                 if($i == ($numlinks - 1) && $additionalLinks === false) {$breadcrumb.= ($list === true ? '<'.$this->displayBreadcrumbItem('li', 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.$this->displayBreadcrumbItem('li', 'span').'>' : '');}
                 else{$breadcrumb.= $this->displayBreadcrumbItem('<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>', ($list !== true ? $this->getBreadcrumbSeparator() : ''), $list).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);}
@@ -546,7 +548,7 @@ class Navigation{
      * @return object 
      */
     protected function parseArray() {
-        if(!is_object($this->nav)) {
+        if(!is_object($this->nav) && is_array($this->getNavigationArray())) {
             $this->nav = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->getNavigationArray()));
         }
         return $this->nav;
