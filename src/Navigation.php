@@ -363,7 +363,7 @@ class Navigation{
         $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
         $it = $this->parseArray();
         $items = 0;
-        if(is_array($it)) {
+        if(is_array($it) || is_object($it)) {
             foreach($it as $text => $link) {
                 if(isset($link) && !is_numeric($text)) {
                     $this->buildMenu($it, $text, $link, (intval($levels) === 0 || $startLevel === 0 ? intval($levels) : ($levels + 1)), intval($startLevel));
@@ -371,7 +371,6 @@ class Navigation{
                 $items++;
             }
         }
-        
         for($i = $this->currentLevel; $i > 0; $i--) {
             $this->closeLevel();
         }
