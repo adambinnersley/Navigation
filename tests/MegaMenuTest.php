@@ -3,18 +3,21 @@ namespace Nav\Tests;
 
 use Nav\MegaMenu;
 
-class MegaMenuTest extends NavigationTest{
+class MegaMenuTest extends NavigationTest
+{
     
     /**
      * @covers \Nav\Navigation::__construct
      * @covers \Nav\Navigation::setNavigationArray
      * @covers \Nav\Navigation::setCurrentURL
      */
-    public function setUp() : void {
+    public function setUp() : void
+    {
         $this->navigation = new MegaMenu($this->simpleNav, '/');
     }
     
-    public function tearDown() : void {
+    public function tearDown() : void
+    {
         $this->navigation = null;
     }
     
@@ -22,7 +25,8 @@ class MegaMenuTest extends NavigationTest{
      * @covers \Nav\MegaMenu::setDropDownElement
      * @covers \Nav\MegaMenu::getDropDownElement
      */
-    public function testSetDropDownElement(){
+    public function testSetDropDownElement()
+    {
         $this->assertEquals('<span class="caret"></span>', $this->navigation->getDropDownElement());
         $this->markTestIncomplete();
     }
@@ -42,8 +46,8 @@ class MegaMenuTest extends NavigationTest{
      * @covers \Nav\MegaMenu::flattenArray
      * @covers \Nav\MegaMenu::sliceArray
      */
-    public function testBuildNavigation(){
+    public function testBuildNavigation()
+    {
         $this->markTestIncomplete();
-
     }
 }

@@ -4,7 +4,8 @@ namespace Nav\Tests;
 use PHPUnit\Framework\TestCase;
 use Nav\Navigation;
 
-class NavigationTest extends TestCase{
+class NavigationTest extends TestCase
+{
     
     protected $navigation;
     
@@ -23,11 +24,13 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setNavigationArray
      * @covers \Nav\Navigation::setCurrentURL
      */
-    public function setUp() : void {
+    public function setUp() : void
+    {
         $this->navigation = new Navigation($this->simpleNav, '/');
     }
     
-    public function tearDown() : void {
+    public function tearDown() : void
+    {
         $this->navigation = null;
     }
     
@@ -35,7 +38,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setNavigationArray
      * @covers \Nav\Navigation::getNavigationArray
      */
-    public function testSetNavigationArray() {
+    public function testSetNavigationArray()
+    {
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setNavigationArray(false));
         $this->assertArrayHasKey('Home', $this->navigation->getNavigationArray());
         
@@ -54,7 +58,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::getCurrent
      * @covers \Nav\Navigation::parseArray
      */
-    public function testSetCurrentURL() {
+    public function testSetCurrentURL()
+    {
         // Test its returning the correct string first of all
         $this->assertEquals('/', $this->navigation->getCurrentURL());
         
@@ -71,7 +76,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setActiveClass
      * @covers \Nav\Navigation::getActiveClass
      */
-    public function testSetActiveClass() {
+    public function testSetActiveClass()
+    {
         $this->assertEquals('active', $this->navigation->getActiveClass());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setActiveClass('current custom_ac'));
         $this->assertStringNotContainsString('active', $this->navigation->getActiveClass());
@@ -92,7 +98,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setNavigationClass
      * @covers \Nav\Navigation::getNavigationClass
      */
-    public function testSetNavigationClass() {
+    public function testSetNavigationClass()
+    {
         $this->assertEquals('nav navbar-nav', $this->navigation->getNavigationClass());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setNavigationClass('my_navigation_class'));
         $this->assertStringNotContainsString('nav navbar-nav', $this->navigation->getNavigationClass());
@@ -113,7 +120,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setNavigationID
      * @covers \Nav\Navigation::getNavigationID
      */
-    public function testSetNavigationID() {
+    public function testSetNavigationID()
+    {
         $this->assertFalse($this->navigation->getNavigationID());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setNavigationID('my_unique_id'));
         $this->assertNotFalse($this->navigation->getNavigationID());
@@ -132,7 +140,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setDropDownClass
      * @covers \Nav\Navigation::getDropDownClass
      */
-    public function testSetDropDownClass() {
+    public function testSetDropDownClass()
+    {
         $this->assertFalse($this->navigation->getDropDownClass());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setDropDownClass('dropdown dd-menu'));
         $this->assertNotFalse($this->navigation->getDropDownClass());
@@ -151,7 +160,8 @@ class NavigationTest extends TestCase{
      * @covers \Nav\Navigation::setBreadcrumbSeparator
      * @covers \Nav\Navigation::getBreadcrumbSeparator
      */
-    public function testSetBreadcrumbSeparator() {
+    public function testSetBreadcrumbSeparator()
+    {
         $this->assertEquals(' &gt; ', $this->navigation->getBreadcrumbSeparator());
         $this->assertObjectHasAttribute('currentURL', $this->navigation->setBreadcrumbSeparator(' / '));
         $this->assertEquals(' / ', $this->navigation->getBreadcrumbSeparator());
@@ -167,28 +177,32 @@ class NavigationTest extends TestCase{
     /**
      * @covers \Nav\Navigation::
      */
-    public function getCurrentItems() {
+    public function getCurrentItems()
+    {
         $this->markTestIncomplete();
     }
     
     /**
      * @covers \Nav\Navigation::
      */
-    public function testCreateSimpleNavigation() {
+    public function testCreateSimpleNavigation()
+    {
         $this->markTestIncomplete();
     }
     
     /**
      * @covers \Nav\Navigation::
      */
-    public function testCreateMultiLevelNavigation() {
+    public function testCreateMultiLevelNavigation()
+    {
         $this->markTestIncomplete();
     }
     
     /**
      * @covers \Nav\Navigation::
      */
-    public function testCreateBreadcrumbNav() {
+    public function testCreateBreadcrumbNav()
+    {
         $this->markTestIncomplete();
     }
 }
