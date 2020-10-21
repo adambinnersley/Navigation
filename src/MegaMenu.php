@@ -4,7 +4,7 @@ namespace Nav;
 
 use Nav\Operators\Check;
 
-class MegaMenu extends Navigation
+class MegaMenu extends Breadcrumb
 {
     public $megamenu;
     

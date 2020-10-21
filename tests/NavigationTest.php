@@ -2,7 +2,7 @@
 namespace Nav\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Nav\Navigation;
+use Nav\Breadcrumb;
 
 class NavigationTest extends TestCase
 {
@@ -191,11 +191,11 @@ class NavigationTest extends TestCase
     
     /**
      * @covers Nav\Navigation::__construct
-     * @covers Nav\Navigation::getBreadcrumbSeparator
+     * @covers Nav\Breadcrumb::getBreadcrumbSeparator
      * @covers Nav\Navigation::getCurrent
      * @covers Nav\Navigation::getNavigationArray
      * @covers Nav\Navigation::parseArray
-     * @covers Nav\Navigation::setBreadcrumbSeparator
+     * @covers Nav\Breadcrumb::setBreadcrumbSeparator
      * @covers Nav\Navigation::setCurrentURL
      * @covers Nav\Navigation::setNavigationArray
      */

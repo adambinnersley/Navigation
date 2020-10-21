@@ -3,3 +3,4 @@
 /.idea/
 *.lock
 *.cache
+clover.xml
