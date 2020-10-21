@@ -3,6 +3,7 @@ namespace Nav;
 
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
+use Nav\Operators\Check;
 
 class Navigation
 {
@@ -165,7 +166,7 @@ class Navigation
      */
     public function setActiveClass($className)
     {
-        if (!empty(trim($className)) && is_string($className)) {
+        if (Check::checkIfStringSet($className)) {
             $this->activeClass = trim($className);
         }
         return $this;
@@ -187,7 +188,7 @@ class Navigation
      */
     public function setNavigationClass($classes)
     {
-        if (!empty(trim($classes)) && is_string($classes)) {
+        if (Check::checkIfStringSet($classes)) {
             $this->navigationClass = trim($classes);
         }
         return $this;
@@ -281,7 +282,7 @@ class Navigation
      */
     public function setBreadcrumbElement($element)
     {
-        if (!empty(trim($element)) && is_string($element)) {
+        if (Check::checkIfStringSet($element)) {
             $this->breadcrumbElement = trim($element);
         }
         return $this;
@@ -306,7 +307,7 @@ class Navigation
      */
     public function setLinkTextWrapElement($element)
     {
-        if (!empty(trim($element)) && is_string($element)) {
+        if (Check::checkIfStringSet($element)) {
             $this->textWrap = $element;
         }
         return $this;
@@ -385,7 +386,7 @@ class Navigation
         $this->linkCount = 0;
         $this->sub = false;
         $this->currentLevel = false;
-        $this->navItem = '<ul'.($this->getNavigationID() ? ' id="'.$this->getNavigationID().'"' : '').($this->getNavigationClass() ? ' class="'.$this->getNavigationClass().'"' : '').'>';
+        $this->navItem = '<ul'.Check::checkIfSet($this->getNavigationID(), ' id="'.$this->getNavigationID().'"').Check::checkIfSet($this->getNavigationClass(), ' class="'.$this->getNavigationClass().'"').'>';
         $it = $this->parseArray();
         $items = 0;
         if (is_array($it) || is_object($it)) {
@@ -415,17 +416,17 @@ class Navigation
      */
     public function createBreadcrumb($additionalLinks = false, $list = true, $class = 'breadcrumb', $itemClass = 'breadcrumb-item')
     {
-        $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().(!empty(trim($class)) ? ' class="'.$class.'"' : '').'>' : '');
+        $breadcrumb = (($list === true && $this->getBreadcrumbElement() !== false) ? '<'.$this->getBreadcrumbElement().Check::checkIfEmpty($class, ' class="'.$class.'"').'>' : '');
         if ($this->checkLinkOffsetMatch('/', 0)) {
             $breadcrumb.= $this->displayBreadcrumbItem('<li class="'.$itemClass.' '.$this->getActiveClass().'">', '').'Home'.$this->displayBreadcrumbItem('<li>', '');
         } else {
-            $breadcrumb.= $this->displayBreadcrumbItem('<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>', '', $list).'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
+            $breadcrumb.= $this->displayBreadcrumbItem('<li'.Check::checkIfEmpty($itemClass, ' class="'.$itemClass.'"').'>', '', $list).'<a href="/" title="Home"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>Home</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
             $numlinks = (is_array($this->current) ? count($this->current) : 0);
             for ($i = 0; $i < $numlinks; $i++) {
                 if ($i == ($numlinks - 1) && $additionalLinks === false) {
-                    $breadcrumb.= ($list === true ? '<'.$this->displayBreadcrumbItem('li', 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.$this->displayBreadcrumbItem('li', 'span').'>' : '');
+                    $breadcrumb.= ($list === true ? '<'.$this->displayBreadcrumbItem('li', 'span').Check::checkIfEmpty($itemClass, ' class="'.$itemClass.' '.$this->getActiveClass().'"').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.$this->displayBreadcrumbItem('li', 'span').'>' : '');
                 } else {
-                    $breadcrumb.= $this->displayBreadcrumbItem('<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>', ($list !== true ? $this->getBreadcrumbSeparator() : ''), $list).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
+                    $breadcrumb.= $this->displayBreadcrumbItem('<li'.Check::checkIfEmpty($itemClass, ' class="'.$itemClass.'"').'>', ($list !== true ? $this->getBreadcrumbSeparator() : ''), $list).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
                 }
             }
             $breadcrumb.= $this->createAdditionalBreadcrumbItems($additionalLinks, $list, $itemClass);
@@ -447,9 +448,9 @@ class Navigation
             $numLinks = count($additionalLinks);
             foreach ($additionalLinks as $i => $item) {
                 if ($i == ($numLinks - 1)) {
-                    $breadcrumb.= ($list === true ? '<'.$this->displayBreadcrumbItem('li', 'span').(!empty(trim($itemClass)) ? ' class="'.$itemClass.' '.$this->getActiveClass().'"' : '').'>' : $this->getBreadcrumbSeparator()).$item['text'].($list === true ? '</'.$this->displayBreadcrumbItem('li', 'span').'>' : '');
+                    $breadcrumb.= ($list === true ? '<'.$this->displayBreadcrumbItem('li', 'span').Check::checkIfEmpty($itemClass, ' class="'.$itemClass.' '.$this->getActiveClass().'"').'>' : $this->getBreadcrumbSeparator()).$item['text'].($list === true ? '</'.$this->displayBreadcrumbItem('li', 'span').'>' : '');
                 } else {
-                    $breadcrumb.= $this->displayBreadcrumbItem('<li'.(!empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>', ($list !== true ? $this->getBreadcrumbSeparator() : ''), $list).'<a href="'.$item['link'].'" title="'.$item['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$item['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
+                    $breadcrumb.= $this->displayBreadcrumbItem('<li'.Check::checkIfEmpty($itemClass, ' class="'.$itemClass.'"').'>', ($list !== true ? $this->getBreadcrumbSeparator() : ''), $list).'<a href="'.$item['link'].'" title="'.$item['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$item['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
                 }
             }
         }
@@ -478,7 +479,7 @@ class Navigation
      */
     protected function buildMenu($it, $text, $link, $levels, $start)
     {
-        $current = ($this->checkLinkOffsetMatch($link, $it->getDepth()) ? ' class="'.$this->getActiveClass().'"' : '');
+        $current = Check::checkIfSet($this->checkLinkOffsetMatch($link, $it->getDepth()), ' class="'.$this->getActiveClass().'"');
                 
         if ($start === 0 || $this->checkLinkOffsetMatch($link, ($start - 1)) || $this->sub === true) {
             if ($start !== 0 && $this->checkLinkOffsetMatch($link, ($start - 1))) {
@@ -523,7 +524,7 @@ class Navigation
                 $this->nextItem($it, $start, $current);
             } elseif ($this->currentLevel < $it->getDepth()) {
                 for ($i = $this->currentLevel; $i < $it->getDepth(); $i++) {
-                    $this->navItem.= '<ul'.($this->getDropDownClass() ? ' class="'.$this->getDropDownClass().'"' : '').'><li'.$current.'>';
+                    $this->navItem.= '<ul'.Check::checkIfSet($this->getDropDownClass(), ' class="'.$this->getDropDownClass().'"').'><li'.$current.'>';
                 }
             } else {
                 for ($i = $it->getDepth(); $i < $this->currentLevel; $i++) {
