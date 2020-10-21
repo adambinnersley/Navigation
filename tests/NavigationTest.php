@@ -26,7 +26,7 @@ class NavigationTest extends TestCase
      */
     public function setUp() : void
     {
-        $this->navigation = new Navigation($this->simpleNav, '/');
+        $this->navigation = new Breadcrumb($this->simpleNav, '/');
     }
     
     public function tearDown() : void

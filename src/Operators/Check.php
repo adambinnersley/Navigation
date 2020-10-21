@@ -48,14 +48,14 @@ class Check
     }
     
     /**
-     * 
-     * @param int $value
-     * @param int $greaterThan
+     * Checks if a value is greater than another and returns one of the 2 items given
+     * @param int $value The value you are checking if its greater than
+     * @param int $greaterThan The value you are comparing
      * @param mixed $valueIfSet If the value is not empty this value will be returned
      * @param mixed $valueIfEmpty If the value is empty this value will be returned
-     * @return boolean#
+     * @return boolean
      */
-    public static function checkIfGreaterThan($value, $greaterThan, $valueIfSet, $valueIfEmpty = '')
+    public static function greaterThan($value, $greaterThan, $valueIfSet, $valueIfEmpty = '')
     {
         if ($value > $greaterThan) {
             return $valueIfSet;
@@ -63,7 +63,16 @@ class Check
         return $valueIfEmpty;
     }
     
-    public static function checkIfGreaterThanEqual($value, $greaterThan, $valueIfSet, $valueIfEmpty = '')
+    
+    /**
+     * Checks if a value is greater than or equal to another and returns one of the 2 items given
+     * @param int $value The value you are checking if its greater than or equal to
+     * @param int $greaterThan The value you are comparing
+     * @param mixed $valueIfSet If the value is not empty this value will be returned
+     * @param mixed $valueIfEmpty If the value is empty this value will be returned
+     * @return boolean
+     */
+    public static function greaterThanOrEqual($value, $greaterThan, $valueIfSet, $valueIfEmpty = '')
     {
         if ($value >= $greaterThan) {
             return $valueIfSet;
