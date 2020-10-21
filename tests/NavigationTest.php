@@ -20,9 +20,9 @@ class NavigationTest extends TestCase
     protected $multilevelNav = array();
     
     /**
-     * @covers \Nav\Navigation::__construct
-     * @covers \Nav\Navigation::setNavigationArray
-     * @covers \Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::setNavigationArray
+     * @covers Nav\Navigation::setCurrentURL
      */
     public function setUp() : void
     {
@@ -35,8 +35,12 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setNavigationArray
-     * @covers \Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::parseArray
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::setNavigationArray
+     * @covers Nav\Navigation::getNavigationArray
      */
     public function testSetNavigationArray()
     {
@@ -53,10 +57,13 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setCurrentURL
-     * @covers \Nav\Navigation::getCurrentURL
-     * @covers \Nav\Navigation::getCurrent
-     * @covers \Nav\Navigation::parseArray
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::setNavigationArray
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::getCurrentURL
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::parseArray
      */
     public function testSetCurrentURL()
     {
@@ -73,8 +80,15 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setActiveClass
-     * @covers \Nav\Navigation::getActiveClass
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::parseArray
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::setNavigationArray
+     * @covers Nav\Navigation::setActiveClass
+     * @covers Nav\Navigation::getActiveClass
+     * @covers Nav\Operators\Check::checkIfStringSet
      */
     public function testSetActiveClass()
     {
@@ -95,8 +109,15 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setNavigationClass
-     * @covers \Nav\Navigation::getNavigationClass
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::parseArray
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::setNavigationArray
+     * @covers Nav\Navigation::setNavigationClass
+     * @covers Nav\Navigation::getNavigationClass
+     * @covers Nav\Operators\Check::checkIfStringSet
      */
     public function testSetNavigationClass()
     {
@@ -117,8 +138,14 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setNavigationID
-     * @covers \Nav\Navigation::getNavigationID
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::getNavigationID
+     * @covers Nav\Navigation::parseArray
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::setNavigationID
+     * @covers Nav\Navigation::setNavigationArray
      */
     public function testSetNavigationID()
     {
@@ -137,8 +164,14 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setDropDownClass
-     * @covers \Nav\Navigation::getDropDownClass
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::getDropDownClass
+     * @covers Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::parseArray
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::setDropDownClass
+     * @covers Nav\Navigation::setNavigationArray
      */
     public function testSetDropDownClass()
     {
@@ -157,8 +190,14 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::setBreadcrumbSeparator
-     * @covers \Nav\Navigation::getBreadcrumbSeparator
+     * @covers Nav\Navigation::__construct
+     * @covers Nav\Navigation::getBreadcrumbSeparator
+     * @covers Nav\Navigation::getCurrent
+     * @covers Nav\Navigation::getNavigationArray
+     * @covers Nav\Navigation::parseArray
+     * @covers Nav\Navigation::setBreadcrumbSeparator
+     * @covers Nav\Navigation::setCurrentURL
+     * @covers Nav\Navigation::setNavigationArray
      */
     public function testSetBreadcrumbSeparator()
     {
@@ -175,7 +214,7 @@ class NavigationTest extends TestCase
 
 
     /**
-     * @covers \Nav\Navigation::
+     * @covers Nav\Navigation::
      */
     public function getCurrentItems()
     {
@@ -183,7 +222,7 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::
+     * @covers Nav\Navigation::
      */
     public function testCreateSimpleNavigation()
     {
@@ -191,7 +230,7 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::
+     * @covers Nav\Navigation::
      */
     public function testCreateMultiLevelNavigation()
     {
@@ -199,7 +238,7 @@ class NavigationTest extends TestCase
     }
     
     /**
-     * @covers \Nav\Navigation::
+     * @covers Nav\Navigation::
      */
     public function testCreateBreadcrumbNav()
     {

@@ -424,9 +424,9 @@ class Navigation
             $numlinks = (is_array($this->current) ? count($this->current) : 0);
             for ($i = 0; $i < $numlinks; $i++) {
                 if ($i == ($numlinks - 1) && $additionalLinks === false) {
-                    $breadcrumb.= ($list === true ? '<'.$this->displayBreadcrumbItem('li', 'span').Check::checkIfEmpty($itemClass, ' class="'.$itemClass.' '.$this->getActiveClass().'"').'>' : $this->getBreadcrumbSeparator()).$this->current[$i]['text'].($list === true ? '</'.$this->displayBreadcrumbItem('li', 'span').'>' : '');
+                    $breadcrumb.= Check::checkIfSet($list, '<'.$this->displayBreadcrumbItem('li', 'span').Check::checkIfEmpty($itemClass, ' class="'.$itemClass.' '.$this->getActiveClass().'"').'>', $this->getBreadcrumbSeparator()).$this->current[$i]['text'].Check::checkIfSet($list, '</'.$this->displayBreadcrumbItem('li', 'span').'>');
                 } else {
-                    $breadcrumb.= $this->displayBreadcrumbItem('<li'.Check::checkIfEmpty($itemClass, ' class="'.$itemClass.'"').'>', ($list !== true ? $this->getBreadcrumbSeparator() : ''), $list).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
+                    $breadcrumb.= $this->displayBreadcrumbItem('<li'.Check::checkIfEmpty($itemClass, ' class="'.$itemClass.'"').'>', Check::checkIfSet($list, '', $this->getBreadcrumbSeparator()), $list).'<a href="'.$this->current[$i]['link'].'" title="'.$this->current[$i]['text'].'"'.(!$this->isBreadcrumbList() && !empty(trim($itemClass)) ? ' class="'.$itemClass.'"' : '').'>'.$this->current[$i]['text'].'</a>'.$this->displayBreadcrumbItem('</li>', '', $list);
                 }
             }
             $breadcrumb.= $this->createAdditionalBreadcrumbItems($additionalLinks, $list, $itemClass);
@@ -502,7 +502,7 @@ class Navigation
         if ($this->sub === true && ($start - 1) == $it->getDepth()) {
             $this->sub = false;
         } else {
-            $this->navItem.= ($this->linkCount >= 1 ? '</li>' : '').'<li'.$current.'>';
+            $this->navItem.= Check::checkIfGreaterThanEqual($this->linkCount, 1, '</li>').'<li'.$current.'>';
         }
     }
     

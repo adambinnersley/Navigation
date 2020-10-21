@@ -2,6 +2,8 @@
 
 namespace Nav;
 
+use Nav\Operators\Check;
+
 class MegaMenu extends Navigation
 {
     public $megamenu;
@@ -19,7 +21,7 @@ class MegaMenu extends Navigation
      */
     public function setDropDownElement($element)
     {
-        if (!empty(trim(strip_tags($element, '<span><i><div>'))) && is_string($element)) {
+        if (Check::checkIfStringSet(strip_tags($element, '<span><i><div>'))) {
             $this->dropdownElement = trim(strip_tags($element, '<span><i><div>'));
         }
         return $this;
@@ -39,15 +41,11 @@ class MegaMenu extends Navigation
         $this->getMenuItems();
         unset($levels);
         unset($start);
-        $nav = '<ul'.($this->getNavigationClass() !== false ? ' class="'.$this->getNavigationClass().'"' : '').($this->getNavigationID() !== false ? ' id="'.$this->getNavigationClass().'"' : '').'>';
+        $nav = '<ul'.Check::checkIfSet($this->getNavigationClass(), ' class="'.$this->getNavigationClass().'"').Check::checkIfSet($this->getNavigationID(), ' id="'.$this->getNavigationClass().'"').'>';
         foreach ($this->megamenu as $text => $link) {
             $itemlink = $this->getLinkItem($link);
             $current = $this->checkIfCurrentLink($itemlink['link'], 0);
-            $nav.= '<li'.($itemlink['num'] >= 1 ? ' class="'.(($itemlink['link'] == $this->current[0]['link'] || $itemlink['link'] == $this->current[1]['link']) ? $this->getActiveClass().' ' : '').($itemlink['num'] > 10 ? 'mega-dropdown dropdown' : 'dropdown').'"' : $current).'>'.($span ? '<span>' : '').'<a href="'.$itemlink['link'].'" title="'.$text.'"'.$current.($itemlink['num'] >= 1 ? ' data-toggle="dropdown"' : '').'>'.$text.($itemlink['num'] >= 1 && $this->getDropDownElement() !== false ? $this->getDropDownElement() : '').($span ? '</span>' : '').'</a>';
-            if ($itemlink['num'] >= 1) {
-                $nav.= $this->buildSubMenu($link, $itemlink['num'], $ddclass);
-            }
-            $nav.= '</li>';
+            $nav.= '<li'.Check::checkIfGreaterThanEqual($itemlink['num'], 1, ' class="'.(($itemlink['link'] == $this->current[0]['link'] || $itemlink['link'] == $this->current[1]['link']) ? $this->getActiveClass().' ' : '').Check::checkIfGreaterThan($itemlink['num'], 10, 'mega-dropdown dropdown', 'dropdown').'"', $current).'>'.Check::checkIfSet($span, '<span>').'<a href="'.$itemlink['link'].'" title="'.$text.'"'.$current.Check::checkIfGreaterThanEqual($itemlink['num'], 1, ' data-toggle="dropdown"').'>'.$text.($itemlink['num'] >= 1 && $this->getDropDownElement() !== false ? $this->getDropDownElement() : '').Check::checkIfSet($span, '</span>').'</a>'.Check::checkIfGreaterThanEqual($itemlink['num'], 1, $this->buildSubMenu($link, $itemlink['num'], $ddclass)).'</li>';
         }
         return $nav.'</ul>';
     }
@@ -59,13 +57,13 @@ class MegaMenu extends Navigation
         foreach ($it as $text => $link) {
             if ($it->getDepth() == 1) {
                 if (!is_array($this->megamenu[$currentitem[0]])) {
-                    $this->megamenu[$currentitem[0]] = array(0 => $this->megamenu[$currentitem[0]]);
+                    $this->megamenu[$currentitem[0]] = [0 => $this->megamenu[$currentitem[0]]];
                 }
                 $this->megamenu[$currentitem[0]][$text] = $link;
                 $currentitem[$it->getDepth()] = $text;
             } elseif ($it->getDepth() >= 2) {
                 if (!is_array($this->megamenu[$currentitem[0]][$currentitem[1]])) {
-                    $this->megamenu[$currentitem[0]][$currentitem[1]] = array(0 => $this->megamenu[$currentitem[0]][$currentitem[1]]);
+                    $this->megamenu[$currentitem[0]][$currentitem[1]] = [0 => $this->megamenu[$currentitem[0]][$currentitem[1]]];
                 }
                 $this->megamenu[$currentitem[0]][$currentitem[1]][$text] = $link;
             } else {

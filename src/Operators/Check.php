@@ -46,4 +46,28 @@ class Check
         }
         return false;
     }
+    
+    /**
+     * 
+     * @param int $value
+     * @param int $greaterThan
+     * @param mixed $valueIfSet If the value is not empty this value will be returned
+     * @param mixed $valueIfEmpty If the value is empty this value will be returned
+     * @return boolean#
+     */
+    public static function checkIfGreaterThan($value, $greaterThan, $valueIfSet, $valueIfEmpty = '')
+    {
+        if ($value > $greaterThan) {
+            return $valueIfSet;
+        }
+        return $valueIfEmpty;
+    }
+    
+    public static function checkIfGreaterThanEqual($value, $greaterThan, $valueIfSet, $valueIfEmpty = '')
+    {
+        if ($value >= $greaterThan) {
+            return $valueIfSet;
+        }
+        return $valueIfEmpty;
+    }
 }
