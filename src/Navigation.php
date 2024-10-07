@@ -68,6 +68,18 @@ class Navigation
     public $navigationClass = 'nav navbar-nav';
     
     /**
+     * The class a li item should have
+     * @var string
+     */
+    public $itemClass = '';
+    
+    /**
+     * The class that should be given to all a elements
+     * @var string
+     */
+    public $linkClass = '';
+    
+    /**
      * The HTML ID assigned to the menu item
      * @var string
      */
@@ -167,6 +179,50 @@ class Navigation
     public function getActiveClass()
     {
         return $this->activeClass;
+    }
+    
+    /**
+     * Returns the class given to link items
+     * @return string
+     */
+    public function getItemClass()
+    {
+        return $this->itemClass;
+    }
+    
+    /**
+     * Sets a class to assign to all link items
+     * @param string $className
+     * @return $this
+     */
+    public function setItemClass($className)
+    {
+        if (Check::checkIfStringSet($className)) {
+            $this->itemClass = trim($className);
+        }
+        return $this;
+    }
+    
+    /**
+     * Gets the class assigned to all link elements
+     * @return string
+     */
+    public function getLinkClass()
+    {
+        return $this->linkClass;
+    }
+    
+    /**
+     * Sets the class to assign to all link elements
+     * @param string $className
+     * @return $this
+     */
+    public function setLinkClass($className)
+    {
+        if (Check::checkIfStringSet($className)) {
+            $this->linkClass = trim($className);
+        }
+        return $this;
     }
     
     /**
@@ -357,7 +413,7 @@ class Navigation
      */
     protected function buildMenu($it, $text, $link, $levels, $start)
     {
-        $current = Check::checkIfSet($this->checkLinkOffsetMatch($link, $it->getDepth()), ' class="'.$this->getActiveClass().'"');
+        $current = Check::checkIfSet($this->checkLinkOffsetMatch($link, $it->getDepth()), ' '.$this->getActiveClass());
                 
         if ($start === 0 || $this->checkLinkOffsetMatch($link, ($start - 1)) || $this->sub === true) {
             if ($start !== 0 && $this->checkLinkOffsetMatch($link, ($start - 1))) {
@@ -380,7 +436,7 @@ class Navigation
         if ($this->sub === true && ($start - 1) == $it->getDepth()) {
             $this->sub = false;
         } else {
-            $this->navItem.= Check::greaterThanOrEqual($this->linkCount, 1, '</li>').'<li'.$current.'>';
+            $this->navItem.= Check::greaterThanOrEqual($this->linkCount, 1, '</li>').'<li class="'.$this->getItemClass().$current.'">';
         }
     }
     
@@ -402,7 +458,7 @@ class Navigation
                 $this->nextItem($it, $start, $current);
             } elseif ($this->currentLevel < $it->getDepth()) {
                 for ($i = $this->currentLevel; $i < $it->getDepth(); $i++) {
-                    $this->navItem.= '<ul'.Check::checkIfSet($this->getDropDownClass(), ' class="'.$this->getDropDownClass().'"').'><li'.$current.'>';
+                    $this->navItem.= '<ul'.Check::checkIfSet($this->getDropDownClass(), ' class="'.$this->getDropDownClass().'"').'><li class="'.$this->getItemClass().$current.'">';
                 }
             } else {
                 for ($i = $it->getDepth(); $i < $this->currentLevel; $i++) {
@@ -411,7 +467,7 @@ class Navigation
                 $this->nextItem($it, $start, $current);
             }
         } elseif ($start === 0 || ($this->sub === true && $it->getDepth() >= $start)) {
-            $this->navItem.= '<li'.$current.'>';
+            $this->navItem.= '<li class="'.$this->getItemClass().$current.'">';
         }
 
         $this->currentLevel = $it->getDepth();
@@ -437,7 +493,7 @@ class Navigation
     protected function createLinkItem($link, $text, $start, $depth)
     {
         if ($this->checkLinkOffsetMatch($link, 0) || $this->checkLinkOffsetMatch($link, 1) || $this->checkLinkOffsetMatch($link, 2) || $this->checkLinkOffsetMatch($link, 3)) {
-            $current = (($start >= 1 && $this->checkLinkOffsetMatch($link, 0) && isset($this->current[1]['link'])) ? '' : ' class="'.$this->getActiveClass().'"');
+            $current = (($start >= 1 && $this->checkLinkOffsetMatch($link, 0) && isset($this->current[1]['link'])) ? '' : ' '.$this->getActiveClass().'');
         } else {
             $current = '';
         }
@@ -447,7 +503,7 @@ class Navigation
             $href = ' href="'.$link.'"';
         }
         $this->linkCount++;
-        return '<a'.$href.' title="'.$text.'"'.$current.'>'.$this->textWrap($text, $depth).'</a>';
+        return '<a'.$href.' title="'.$text.'" class="'.$this->getLinkClass().$current.'">'.$this->textWrap($text, $depth).'</a>';
     }
     
     /**
